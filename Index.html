@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <base target="_top">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <style>
+        /* DEFINICIÓN DE VARIABLES DE COLOR BUK */
+        :root {
+            --buk-color-primary: #2f4daa; 
+            --buk-color-secondary: #00a4bd;
+            --background-light: #f4f8fb;
+            --cancel-red: #e53935;
+            --cancel-red-hover: #d32f2f;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--background-light);
+            background-image: radial-gradient(circle at top right, rgba(0, 164, 189, 0.05), transparent 400px),
+                              radial-gradient(circle at bottom left, rgba(47, 77, 170, 0.05), transparent 400px);
+            background-attachment: fixed;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+        
+        /* EXPANDIR EL CONTENEDOR AL 95% DE LA PANTALLA */
+        .container {
+            width: 95% !important;
+            max-width: 1600px !important; 
+        }
+
+        /* --- ESTILOS DE LA BARRA SUPERIOR (NAVBAR) --- */
+        nav.custom-nav {
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%) !important;
+            box-shadow: 0 4px 15px rgba(0, 164, 189, 0.2);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-wrapper .brand-logo {
+            font-weight: 600;
+            font-size: 1.5rem;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.5px;
+        }
+        .nav-wrapper .brand-logo i {
+            margin-right: 12px;
+            font-size: 2rem;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        /* --- ESTILOS DE LAS TARJETAS (CONTENEDORES BLANCOS) --- */
+        .table-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            padding: 25px 30px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03), 0 1px 3px rgba(0,0,0,0.02);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 100%;
+            border-top: 4px solid var(--buk-color-secondary);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .table-card:hover {
+            box-shadow: 0 15px 35px rgba(0, 164, 189, 0.06), 0 3px 10px rgba(0,0,0,0.03);
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--buk-color-primary); 
+            margin-top: 0;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.3px;
+        }
+        .section-title i {
+            color: var(--buk-color-secondary);
+        }
+
+        /* Contenedores de las tablas */
+        #dataTableReserva, #dataTableFila {
+            width: 100%;
+            overflow-x: auto; 
+            border-radius: 8px;
+        }
+
+        /* --- ESTILOS DE LAS TABLAS INYECTADAS --- */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: auto;
+        }
+
+        thead th {
+            background-color: #f9fafb;
+            color: #607d8b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem; /* Ajuste para zoom 100% */
+            padding: 12px 6px; /* Ajuste horizontal */
+            border-bottom: 2px solid #e0e0e0;
+            text-align: center; 
+        }
+        tbody tr {
+            transition: background-color 0.2s ease;
+        }
+        tbody tr:hover {
+            background-color: #f1f6f9;
+        }
+        td {
+            padding: 10px 6px; /* Ajuste horizontal */
+            font-size: 0.88rem; /* Ajuste para zoom 100% */
+            color: #424242;
+            text-align: center; 
+            word-break: break-word; /* Parte el ID en dos lineas para ocupar menos espacio */
+            vertical-align: middle;
+        }
+
+        /* Fuerza a la columna ID a ser estrecha para obligar el salto de línea */
+        th:first-child, td:first-child {
+            width: 130px;      /* Ancho fijo para la primera columna */
+            max-width: 130px;  /* Límite máximo para forzar el quiebre */
+        }
+
+        /* --- ESTILOS DE LOS BOTONES DE CANCELAR --- */
+        td button {
+            background-color: var(--cancel-red) !important;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 5px rgba(229, 57, 53, 0.3);
+            white-space: nowrap; 
+        }
+        td button:hover {
+            background-color: var(--cancel-red-hover) !important;
+            box-shadow: 0 4px 8px rgba(229, 57, 53, 0.4);
+            transform: translateY(-1px);
+        }
+
+        /* --- ESTILOS DE LOS LOADERS (PROGRESS BARS) --- */
+        .progress {
+            background-color: #e0e0e0;
+            margin-top: 20px;
+        }
+        .progress .indeterminate {
+            background-color: var(--buk-color-primary); 
+        }
+
+        /* TRUCO: Estirar el ícono del calendario sobre todo el campo */
+        input[type="date"] {
+            position: relative;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0; /* Lo hace completamente invisible */
+            cursor: pointer;
+        }
+
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        window.onload = function() {
+            cargarDatos();
+            establecerFechaMinima();
+        };
+        
+        function establecerFechaMinima() {
+            var localDate = new Date();
+            var yyyy = localDate.getFullYear();
+            var mm = String(localDate.getMonth() + 1).padStart(2, '0');
+            var dd = String(localDate.getDate()).padStart(2, '0');
+            var minDate = yyyy + '-' + mm + '-' + dd;
+            var inputFecha = document.getElementById("fechaReserva");
+            if (inputFecha) {
+                inputFecha.setAttribute('min', minDate);
+            }
+        }
+        
+        function renderizarTabla(containerId, payload, isEspera) {
+            var container = document.getElementById(containerId);
+            if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
+                container.innerHTML = '<table class="centered responsive-table striped"><tbody><tr><td style="color: #757575;">No se encontraron registros.</td></tr></tbody></table>';
+                return;
+            }
+
+            var headers = payload.headers.slice();
+            headers.push('Acción');
+
+            var table = '<table class="centered responsive-table striped">';
+            table += '<thead><tr>';
+            for (var i = 0; i < headers.length; i++) {
+                table += '<th>' + headers[i] + '</th>';
+            }
+            table += '</tr></thead><tbody>';
+
+            var data = payload.data;
+            for (var i = 0; i < data.length; i++) {
+                var row = data[i];
+                var id = row[0]; // Asume que el ID está en la primera columna
+                table += '<tr id="row-' + id + '">';
+                for (var j = 0; j < row.length; j++) {
+                    table += '<td>' + row[j] + '</td>';
+                }
+                
+                var actionBtn = isEspera ? 
+                    '<button id="btn-' + id + '" onclick="borrarEspera(\'' + id + '\')" class="btn waves-effect waves-light" style="background-color: var(--cancel-red); border-radius: 4px; padding: 0 15px; height: 32px; line-height: 32px; font-size: 0.8rem; display: flex; align-items: center; margin: 0 auto;">Cancelar Espera</button>' : 
+                    '<button id="btn-' + id + '" onclick="borrarReserva(\'' + id + '\')" class="btn waves-effect waves-light" style="background-color: var(--cancel-red); border-radius: 4px; padding: 0 15px; height: 32px; line-height: 32px; font-size: 0.8rem; display: flex; align-items: center; margin: 0 auto;">Cancelar Reserva</button>';
+                
+                table += '<td>' + actionBtn + '</td>';
+                table += '</tr>';
+            }
+            table += '</tbody></table>';
+            container.innerHTML = table;
+        }
+
+        function cargarDatos() {
+            document.getElementById("dataTableReserva").innerHTML = '<div class="progress" style="background-color: #bbdefb;"><div class="indeterminate" style="background-color: var(--buk-color-primary);"></div></div>';
+            document.getElementById("dataTableFila").innerHTML = '<div class="progress" style="background-color: #bbdefb;"><div class="indeterminate" style="background-color: var(--buk-color-primary);"></div></div>';
+
+            google.script.run.withSuccessHandler(function(usuario) {
+                document.getElementById("currentUser").innerHTML = usuario.email;
+                if (usuario.nombre) {
+                    var inputNombre = document.getElementById("nombreUsuario");
+                    if (inputNombre && !inputNombre.value) {
+                        inputNombre.value = usuario.nombre;
+                        M.updateTextFields();
+                    }
+                }
+            }).getDatosUsuarioActual();
+
+            google.script.run.withSuccessHandler(function(payload) {
+                renderizarTabla("dataTableReserva", payload, false);
+            }).getDataReserva();
+
+            google.script.run.withSuccessHandler(function(payload) {
+                renderizarTabla("dataTableFila", payload, true);
+            }).getDataFila();
+        }
+
+        function enviarReserva(event) {
+            event.preventDefault();
+            
+            var btn = document.getElementById('btnEnviarReserva');
+            var originalText = btn.innerHTML;
+            
+            // Estado de carga en botón
+            btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div> Procesando...';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            var datos = {
+                nombre: document.getElementById("nombreUsuario").value.trim(),
+                placa: document.getElementById("placa").value.trim().toUpperCase(),
+                fecha: document.getElementById("fechaReserva").value,
+                turno: document.querySelector('input[name="turno"]:checked').value
+            };
+
+            google.script.run
+            .withSuccessHandler(function(resultado) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.style.opacity = '1';
+
+                if (resultado.success) {
+                    M.toast({html: resultado.message, classes: 'green rounded', displayLength: 4000});
+                    document.getElementById("fechaReserva").value = '';
+                    cargarDatos();
+                } else {
+                    M.toast({html: resultado.message, classes: 'red rounded', displayLength: 4000});
+                }
+            })
+            .withFailureHandler(function(error) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                M.toast({html: 'Error del servidor: ' + error.message, classes: 'red darken-2 rounded', displayLength: 4000});
+            })
+            .procesarNuevaReservaWeb(datos);
+        }
+
+        function manejarCancelacion(id, functionName) {
+            var btn = document.getElementById('btn-' + id);
+            var row = document.getElementById('row-' + id);
+            
+            // Reemplazar boton con spinner pequeño integrado
+            var originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'not-allowed';
+
+            google.script.run
+            .withSuccessHandler(function(resultado) {
+                if (resultado.success) {
+                    M.toast({html: resultado.message, classes: 'green rounded', displayLength: 4000});
+                    // Eliminar la fila al instante sin recargar la página
+                    if (row) {
+                        row.style.transition = 'opacity 0.3s ease-out';
+                        row.style.opacity = '0';
+                        setTimeout(function() { row.remove(); }, 300);
+                    }
+                } else {
+                    M.toast({html: resultado.message, classes: 'red rounded', displayLength: 4000});
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                }
+            })
+            .withFailureHandler(function(error) {
+                M.toast({html: 'Error del servidor: ' + error.message, classes: 'red darken-2 rounded', displayLength: 4000});
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            })
+            .cancelarReserva(id);
+        }
+
+        function borrarReserva(id) { manejarCancelacion(id, 'Reserva'); }
+        function borrarEspera(id) { manejarCancelacion(id, 'Espera'); }
+    </script>
+</head>
+<body>
+
+    <nav class="custom-nav">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><i class="material-icons">directions_car</i>Sistema de Estacionamientos ·BUK·</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
+
+
+            <div class="col s12">
+                <h5 class="light grey-text text-darken-2" style="font-size: 1.1rem; margin: 0;">
+                    Gestionando reservas para: <span id='currentUser' style="font-weight: 600; color: var(--buk-color-primary);">Cargando...</span>
+                </h5>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- NUEVA TARJETA: SOLICITAR ESTACIONAMIENTO   -->
+        <!-- ========================================== -->
+        <div class="row">
+            <div class="col s12">
+                <div class="table-card" style="border-left: 5px solid var(--buk-color-primary);">
+                    <h5 class="section-title"><i class="material-icons">add_circle</i> Solicitar Estacionamiento</h5>
+                    <form id="formReserva" onsubmit="enviarReserva(event)">
+                        <!-- Fila 1: Nombre y Placa -->
+                        <div class="row" style="margin-bottom: 0;">
+                            <!-- Campo Nombre -->
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">person</i>
+                                <input id="nombreUsuario" type="text" required placeholder="Ej: Juan Pérez">
+                                <label for="nombreUsuario" class="active">Nombre Completo *</label>
+                            </div>
+
+                            <!-- Campo Placa -->
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">directions_car</i>
+                                <input id="placa" type="text" required placeholder="Ej: ABC-123" style="text-transform: uppercase;" maxlength="7">
+                                <label for="placa" class="active">Placa del Vehículo *</label>
+                            </div>
+                        </div>
+
+                        <!-- Fila 2: Fecha y Turno -->
+                        <div class="row" style="margin-bottom: 0;">
+                            <!-- Campo Fecha -->
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix">date_range</i>
+                                <input id="fechaReserva" type="date" required 
+                                       onclick="this.showPicker()" 
+                                       onkeydown="return false" 
+                                       style="cursor: pointer; caret-color: transparent;">
+                                <label for="fechaReserva" class="active">Fecha de Uso *</label>
+                            </div>
+
+                            <!-- Opciones de Turno -->
+                            <div class="col s12 m6" style="padding-top: 15px;">
+                                <label style="font-size: 0.85rem; color: #9e9e9e; display: block; margin-bottom: 5px;">Turno *</label>
+                                <label style="margin-right: 15px;">
+                                    <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO" checked />
+                                    <span style="color: #424242;">Día Completo</span>
+                                </label>
+                                <label style="margin-right: 15px;">
+                                    <input class="with-gap" name="turno" type="radio" value="AM" />
+                                    <span style="color: #424242;">AM</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" name="turno" type="radio" value="PM" />
+                                    <span style="color: #424242;">PM</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- Botón Enviar -->
+                        <div class="row" style="margin-bottom: 0; margin-top: 15px; text-align: right;">
+                            <div class="col s12">
+                                <button type="submit" id="btnEnviarReserva" class="btn waves-effect waves-light" style="background-color: var(--buk-color-primary); border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(47, 77, 170, 0.2);">
+                                    <i class="material-icons left">send</i> Enviar Solicitud
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- ========================================== -->
+
+        <div class="row">
+            <div class="col s12">
+                <div class="table-card">
+                    <h5 class="section-title"><i class="material-icons">check_circle</i> Mis Reservas Confirmadas</h5>
+                    <div id='dataTableReserva'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12"> 
+                <div class="table-card">
+                    <h5 class="section-title"><i class="material-icons">access_time</i> Mis Reservas en Fila de Espera</h5>
+                    <div id='dataTableFila'>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
