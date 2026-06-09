@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <base target="_top">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+
+    <style>
+        /* DEFINICIÓN DE VARIABLES DE COLOR BUK */
+        :root {
+            --buk-color-primary: #2f4daa;
+            --buk-color-secondary: #00a4bd;
+            --background-light: #f4f8fb;
+            --cancel-red: #e53935;
+            --cancel-red-hover: #d32f2f;
+        }
+
+        /* --- ESTILOS DEL PRELOADER PREMIUM EXACTO SUI.IO --- */
+        .preloader-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: #000000; /* Fondo negro puro */
+            z-index: 9999; /* Por encima de todo */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: background-color 1.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, visibility 0.6s;
+        }
+
+        .preloader-overlay.reveal-content {
+            background-color: rgba(0, 0, 0, 0) !important;
+            pointer-events: none;
+        }
+
+        /* Círculos concéntricos de fondo */
+        .preloader-bg-circles {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .bg-circle {
+            fill: none;
+            stroke: rgba(255, 255, 255, 0.02);
+            stroke-width: 1px;
+        }
+
+        /* Contenedor de la barra de progreso */
+        .sui-progress-container {
+            position: relative;
+            z-index: 2;
+            width: 80vw;
+            max-width: 900px;
+            min-width: 280px;
+            height: 12px;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.4s ease;
+        }
+
+        .intro_map {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+
+        /* Elemento de progreso que se desplaza horizontalmente */
+        .line_progress {
+            position: absolute;
+            top: 50%;
+            left: 0%;
+            width: 12px; /* Mismo ancho del cuadradito azul para centrar el origen */
+            height: 12px;
+            transform: translate(-50%, -50%); /* Centra el punto de anclaje en el left exacto */
+            will-change: left;
+            transition: left 0.1s linear;
+        }
+
+        /* Indicador de porcentaje superior (cuadradito, texto, 3 rayas) */
+        .current_percent {
+            position: absolute;
+            bottom: 12px; /* Sube desde el centro horizontal */
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            pointer-events: none;
+            opacity: 1;
+        }
+
+        .percent_wrapper {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        /* Cuadradito blanco */
+        .block-12 {
+            width: 12px;
+            height: 12px;
+            background-color: #ffffff; /* Blanco */
+            box-shadow: 0 0 10px #ffffff;
+        }
+
+        /* Texto de porcentaje */
+        .ts-16px {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 1;
+            white-space: nowrap;
+        }
+
+        /* Línea vertical de 5 pequeñas rayas (más alta) */
+        .pointer-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 0%);
+            background-size: 1px 8px; /* 4px línea y 4px espacio (5 rayas en 40px) */
+            background-repeat: repeat-y;
+        }
+
+        /* Cometa/Estela de luz que se estira (degradado CSS puro premium de Sui.io) */
+        .line_current {
+            position: absolute;
+            right: 6px; /* Centrado con el origen del cuadradito de 12px */
+            top: 50%;
+            width: 15em; /* Ancho de la estela */
+            height: 21.33px; /* Grosor de la estela solicitado por el usuario */
+            transform-origin: 100% 50%; /* Se estira hacia la izquierda desde la cabeza */
+            transform: translateY(-50%) scaleX(0); /* Inicialmente colapsado */
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            overflow: hidden;
+            background: linear-gradient(to left, rgba(255, 255, 255, 0.95) 0%, rgba(41, 141, 255, 0.5) 30%, rgba(41, 141, 255, 0) 100%);
+            border-radius: 4px;
+        }
+
+        /* Contenedor del logo de BUK en el preloader */
+        .preloader-logo-container {
+            position: absolute;
+            left: 0;
+            width: 100vw;
+            height: 650px;
+            top: 50vh;
+            transform: translateY(-50%);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, top 1.2s cubic-bezier(0.77, 0, 0.175, 1), transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+            z-index: 5;
+            overflow: hidden;
+            background-color: #000000;
+        }
+
+        .preloader-logo-container.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .preloader-logo-container.move-to-bottom {
+            top: 100vh;
+            transform: translateY(-100%);
+        }
+
+        /* Imagen del degradado de Sui */
+        .line_current img.image-9 {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: 100% 50%; /* Posicionamiento oficial de Sui.io */
+            flex: none;
+            display: block;
+        }
+
+        /* Clase de movimiento: estira el cometa y le da opacidad */
+        .line_current.moving {
+            transform: translateY(-50%) scaleX(1);
+            opacity: 1;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #000000;
+            /* Negro absoluto puro Sui */
+            color: #cbd5e1;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* EXPANDIR EL CONTENEDOR AL 95% DE LA PANTALLA */
+        .container {
+            width: 95% !important;
+            max-width: 1600px !important;
+        }
+
+        /* --- ESTILOS DE LA BARRA SUPERIOR (NAVBAR) --- */
+        nav.custom-nav {
+            background: rgba(10, 14, 23, 0.7) !important;
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(0, 164, 189, 0.2);
+            /* Borde neón celeste */
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-wrapper .brand-logo {
+            font-weight: 800;
+            font-size: 1.8rem;
+            padding-left: 20px;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.02em;
+            /* Degradado base */
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        /* El efecto Glow al hacer hover (Difuminado Sui Style) */
+        .nav-wrapper .brand-logo:hover {
+            text-shadow: 0 0 20px rgba(0, 164, 189, 0.8), 0 0 40px rgba(47, 77, 170, 0.6);
+        }
+
+        .nav-wrapper .brand-logo i {
+            margin-right: 12px;
+            font-size: 2rem;
+            color: var(--buk-color-secondary);
+            -webkit-text-fill-color: var(--buk-color-secondary);
+        }
+
+        /* --- ESTILOS DE LAS TARJETAS (ASSET AND SERVICE COORDINATION STYLE) --- */
+        .table-card {
+            background-color: #0d1117;
+            /* Gris muy oscuro, casi negro */
+            border-radius: 12px;
+            /* Más estructurado, menos redondo */
+            padding: 25px 30px;
+            /* Borde estructural de 1px */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+            margin-top: 30px;
+            margin-bottom: 30px;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            /* Gradient Text BUK */
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            margin-top: 0;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title i {
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+        }
+
+        /* Contenedores de las tablas */
+        #dataTableReserva,
+        #dataTableFila {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 8px;
+        }
+
+        /* --- ESTILOS DE LAS TABLAS INYECTADAS --- */
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            table-layout: auto;
+        }
+
+        thead th {
+            background-color: rgba(47, 77, 170, 0.15);
+            /* Fondo azul oscuro corporativo */
+            color: #94a3b8;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            padding: 16px 8px;
+            border-bottom: 1px solid rgba(0, 164, 189, 0.3);
+            /* Línea celeste estructural */
+            text-align: center;
+        }
+
+        tbody tr {
+            transition: background-color 0.2s ease, transform 0.2s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr:hover {
+            background-color: rgba(0, 164, 189, 0.1);
+            /* Tinte de neón celeste al hacer hover */
+        }
+
+        td {
+            padding: 10px 6px;
+            /* Ajuste horizontal */
+            font-size: 0.88rem;
+            /* Ajuste para zoom 100% */
+            color: #ffffff;
+            /* Texto blanco puro intenso */
+            text-align: center;
+            word-break: break-word;
+            /* Parte el ID en dos lineas para ocupar menos espacio */
+            vertical-align: middle;
+        }
+
+        /* Fuerza a la columna ID a ser estrecha para obligar el salto de línea */
+        th:first-child,
+        td:first-child {
+            width: 130px;
+            /* Ancho fijo para la primera columna */
+            max-width: 130px;
+            /* Límite máximo para forzar el quiebre */
+        }
+
+        /* --- ESTILOS DE LOS BOTONES DE CANCELAR (EFECTO CRISTAL REAL / FROSTED GLASS) --- */
+        td button {
+            position: relative;
+            display: inline-flex !important;
+            flex-direction: column !important;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+
+            /* EL SECRETO DEL CRISTAL OSCURO: Fondo casi negro con un toque rojo */
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(229, 57, 53, 0.05) 100%) !important;
+
+            /* EFECTO DE DESENFOQUE */
+            backdrop-filter: blur(25px) saturate(160%);
+            -webkit-backdrop-filter: blur(25px) saturate(160%);
+
+            /* FORMA Y BORDES ILUMINADOS ROJOS */
+            border-radius: 20px !important;
+            padding: 12px 20px !important;
+            border: 1px solid rgba(229, 57, 53, 0.3) !important;
+            border-top: 1px solid rgba(229, 57, 53, 0.6) !important;
+            /* Luz pegando arriba */
+            border-bottom: 1px solid rgba(229, 57, 53, 0.1) !important;
+            /* Sombra abajo */
+
+            color: #ff8a80 !important;
+            /* Rojo claro luminoso */
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600 !important;
+            cursor: pointer;
+            height: auto !important;
+            line-height: normal !important;
+
+            /* SOMBRA PARA ELEVAR EL CRISTAL */
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
+
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease;
+            white-space: nowrap;
+        }
+
+        td button:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 12px 40px 0 rgba(229, 57, 53, 0.2) !important;
+            /* Glow rojo intenso */
+            background: linear-gradient(135deg, rgba(229, 57, 53, 0.3) 0%, rgba(229, 57, 53, 0.1) 100%) !important;
+        }
+
+        td button:active {
+            transform: scale(0.95);
+            transition: transform 0.1s;
+        }
+
+        td button:focus-visible {
+            outline: 2px solid #ff8a80;
+            outline-offset: 4px;
+        }
+
+        td button i {
+            font-size: 1.8rem;
+            margin: 0;
+            color: #ff8a80;
+            filter: drop-shadow(0 2px 4px rgba(229, 57, 53, 0.8));
+            /* Resplandor intenso en la X */
+        }
+
+        td button span {
+            font-size: 0.65rem;
+            line-height: 1.1;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
+        }
+
+        /* --- ESTILOS DE LOS LOADERS (PROGRESS BARS) --- */
+        .progress {
+            background-color: rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+        }
+
+        .progress .indeterminate {
+            background-color: var(--buk-color-secondary);
+            box-shadow: 0 0 10px var(--buk-color-secondary);
+            /* Glow */
+        }
+
+        /* --- ESTILOS MODERNOS PARA INPUTS (FORMULARIO) --- */
+        .input-field input[type=text]:focus,
+        .input-field input[type=date]:focus {
+            border-bottom: 2px solid var(--buk-color-secondary) !important;
+            box-shadow: 0 1px 0 0 var(--buk-color-secondary) !important;
+        }
+
+        .input-field label {
+            color: #94a3b8 !important;
+        }
+
+        .input-field input[type=text],
+        .input-field input[type=date] {
+            color: #ffffff !important;
+        }
+
+        .input-field label.active {
+            color: var(--buk-color-secondary) !important;
+            font-weight: 500;
+        }
+
+        .input-field .prefix {
+            color: #64748b !important;
+        }
+
+        .input-field .prefix.active {
+            color: var(--buk-color-secondary) !important;
+            text-shadow: 0 0 8px rgba(0, 164, 189, 0.6);
+            /* Glow en icono */
+        }
+
+        /* TRUCO: Estirar el ícono del calendario sobre todo el campo */
+        input[type="date"] {
+            position: relative;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            /* Lo hace completamente invisible */
+            cursor: pointer;
+        }
+
+        /* --- ESTILOS DEL FOOTER MATRIX (SUI TYPOGRAPHY GRID) --- */
+        .sui-matrix-footer {
+            width: 100%;
+            background-color: #000000;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            height: 650px;
+            opacity: 0; /* Empieza invisible para evitar el doble logo en la animación */
+            visibility: hidden;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .sui-matrix-footer.visible-now {
+            opacity: 1 !important;
+            visibility: visible !important;
+        }
+
+        #suiMatrixFooter,
+        #preloaderMatrix {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            gap: 3px 8px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .matrix-word {
+            font-size: 0.85rem;
+            /* Más pequeña para que quepan palabras completas dentro de la máscara */
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #475569;
+            /* Letras apagadas pero visibles para delinear la palabra */
+            display: flex;
+            gap: 2px;
+            cursor: default;
+            user-select: none;
+        }
+
+        .matrix-letter {
+            transition: color 0.1s ease, text-shadow 0.1s ease;
+        }
+
+        .matrix-separator {
+            color: #475569;
+            /* Restaurado para que sea visible como antes */
+            margin: 0 5px;
+            font-weight: 800;
+            user-select: none;
+        }
+
+        /* EFECTO LUZ NEÓN */
+        .matrix-letter.neon-glow {
+            color: var(--buk-color-secondary);
+            text-shadow: 0 0 15px rgba(0, 164, 189, 0.8), 0 0 30px rgba(0, 164, 189, 0.5);
+        }
+
+        .matrix-letter.neon-glow-primary {
+            color: var(--buk-color-primary);
+            text-shadow: 0 0 15px rgba(47, 77, 170, 0.8), 0 0 30px rgba(47, 77, 170, 0.5);
+        }
+
+        /* MÁSCARA GIGANTE (Recorta la luz dentro del texto) */
+        .buk-text-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #000000;
+            /* Color del fondo puro, oculta la matriz afuera */
+            color: #ffffff;
+            /* Color blanco, deja ver la luz de la matriz adentro */
+            mix-blend-mode: darken;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .buk-text-mask h1 {
+            font-size: clamp(8rem, 28vw, 25rem); /* Ajustado de 12rem/35vw/35rem para evitar cortes verticales */
+            font-weight: 900;
+            line-height: 0.8;
+            letter-spacing: -0.02em;
+            margin: 0;
+            text-align: center;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Variables para el control de carga del preloader premium
+        var progressPercent = 0;
+        var resolvedCalls = 0;
+        var totalCalls = 3;
+        var progressInterval = null;
+        var preloaderTimeout = null;
+        var backendReady = false;
+        var logoTransitionStarted = false;
+
+        function actualizarBarraProgreso(percent, isFinished) {
+            var progressBar = document.getElementById("loading-bar");
+            var percentText = document.getElementById("loading-percent");
+            var loadingComet = document.getElementById("loading-comet");
+            if (!progressBar || !percentText || !loadingComet) return;
+
+            percentText.innerHTML = Math.floor(percent) + "%";
+            progressBar.style.left = percent + "%";
+
+            if (isFinished) {
+                // Al finalizar al 100%, contraer la estela
+                loadingComet.style.transform = "translateY(-50%) scaleX(0)";
+                loadingComet.style.opacity = "0";
+            } else {
+                // Estiramiento proporcional: se estira gradualmente del 0% al 25% de la carga
+                var scaleVal = Math.min(1, percent / 25);
+                var opacityVal = Math.min(1, percent / 10);
+                
+                loadingComet.style.transform = "translateY(-50%) scaleX(" + scaleVal + ")";
+                loadingComet.style.opacity = opacityVal;
+            }
+        }
+
+        function iniciarPreloader() {
+            var progressBar = document.getElementById("loading-bar");
+            var percentText = document.getElementById("loading-percent");
+            if (!progressBar || !percentText) return;
+
+            // Inicializar progreso
+            progressPercent = 0;
+            resolvedCalls = 0;
+            backendReady = false;
+            logoTransitionStarted = false;
+
+            // Establecer estado inicial a 0% (cuadrado sin cola en el extremo izquierdo)
+            actualizarBarraProgreso(0, false);
+
+            // Esperar 600ms en el extremo izquierdo antes de comenzar el avance
+            setTimeout(function () {
+                progressInterval = setInterval(function () {
+                    if (progressPercent < 100) {
+                        progressPercent += 1;
+                        actualizarBarraProgreso(progressPercent, false);
+                    } else {
+                        clearInterval(progressInterval);
+                        progressPercent = 100;
+                        actualizarBarraProgreso(100, true);
+                        ejecutarTransicionLogo();
+                    }
+                }, 25);
+            }, 600);
+
+            // Temporizador de seguridad (18 segundos) por si falla la red
+            preloaderTimeout = setTimeout(function () {
+                backendReady = true;
+            }, 18000);
+        }
+
+        function marcarLlamadoCompletado() {
+            resolvedCalls++;
+            if (resolvedCalls >= totalCalls) {
+                backendReady = true;
+            }
+        }
+
+        function ejecutarTransicionLogo() {
+            if (logoTransitionStarted) return;
+            logoTransitionStarted = true;
+
+            if (progressInterval) clearInterval(progressInterval);
+            if (preloaderTimeout) clearTimeout(preloaderTimeout);
+
+            var progressWrap = document.getElementById("progress-container-wrap");
+            var logoContainer = document.getElementById("preloader-logo-container");
+
+            if (!progressWrap || !logoContainer) return;
+
+            // 1. Ocultar la barra de progreso
+            progressWrap.style.opacity = "0";
+
+            // 2. Mostrar el logo BUK centrado en el preloader
+            setTimeout(function () {
+                logoContainer.classList.add("visible");
+
+                // 3. Crear bucle de espera: Logo centrado sirve como pantalla de espera del backend
+                var logoShowStartTime = Date.now();
+                var checkInterval = setInterval(function () {
+                    var elapsed = Date.now() - logoShowStartTime;
+
+                    // Mínimo 2 segundos de visualización para estética premium,
+                    // y continúa esperando hasta que backendReady sea true
+                    if (backendReady && elapsed >= 2000) {
+                        clearInterval(checkInterval);
+                        iniciarDeslizamientoLogo();
+                    }
+                }, 100);
+            }, 300);
+        }
+
+        function iniciarDeslizamientoLogo() {
+            var logoContainer = document.getElementById("preloader-logo-container");
+            var preloaderOverlay = document.getElementById("preloader");
+            var realFooter = document.getElementById("real-matrix-footer");
+
+            if (!logoContainer || !preloaderOverlay) return;
+
+            // Deslizar hacia abajo y desvanecer fondo negro del preloader
+            logoContainer.classList.add("move-to-bottom");
+            preloaderOverlay.classList.add("reveal-content");
+
+            // Esperar a que la transición del deslizamiento (1.2s) termine
+            setTimeout(function () {
+                // Hacer visible el footer real
+                if (realFooter) {
+                    realFooter.classList.add("visible-now");
+                }
+                // Remover el preloader de la pantalla
+                preloaderOverlay.remove();
+            }, 1300);
+        }
+
+        window.onload = function () {
+            iniciarPreloader();
+            cargarDatos();
+            establecerFechaMinima();
+            initSuiMatrix('suiMatrixFooter');
+            initSuiMatrix('preloaderMatrix');
+        };
+
+        function initSuiMatrix(containerId) {
+            var container = document.getElementById(containerId);
+            if (!container) return;
+
+            var content = '';
+            // 1500 palabras para rellenar completamente pantallas anchas y evitar cortes del logo
+            var wordCount = containerId === 'preloaderMatrix' ? 1500 : 1500;
+            for (var i = 0; i < wordCount; i++) {
+                content += '<div class="matrix-word">';
+                content += '<span class="matrix-letter">B</span>';
+                content += '<span class="matrix-letter">U</span>';
+                content += '<span class="matrix-letter">K</span>';
+                content += '<span class="matrix-separator">//</span>';
+                content += '</div>';
+            }
+            container.innerHTML = content;
+
+            var letters = container.querySelectorAll('.matrix-letter');
+
+            setInterval(function () {
+                var numLuces = Math.floor(Math.random() * 10) + 8; // De 8 a 17 luces encendidas por ciclo
+
+                for (var i = 0; i < numLuces; i++) {
+                    var randomIndex = Math.floor(Math.random() * letters.length);
+                    var letter = letters[randomIndex];
+                    var claseGlow = Math.random() > 0.5 ? 'neon-glow' : 'neon-glow-primary';
+
+                    if (letter && !letter.classList.contains('neon-glow') && !letter.classList.contains('neon-glow-primary')) {
+                        letter.classList.add(claseGlow);
+
+                        (function (el, cls, time) {
+                            setTimeout(function () {
+                                el.classList.remove(cls);
+                            }, time);
+                        })(letter, claseGlow, Math.floor(Math.random() * 2000) + 1000); // Brilla entre 1 y 3 segundos
+                    }
+                }
+            }, 120); // Corre cada 120ms para mayor densidad de luces y dinamismo
+        }
+
+        function establecerFechaMinima() {
+            var localDate = new Date();
+            var yyyy = localDate.getFullYear();
+            var mm = String(localDate.getMonth() + 1).padStart(2, '0');
+            var dd = String(localDate.getDate()).padStart(2, '0');
+            var minDate = yyyy + '-' + mm + '-' + dd;
+            var inputFecha = document.getElementById("fechaReserva");
+            if (inputFecha) {
+                inputFecha.setAttribute('min', minDate);
+            }
+        }
+
+        function renderizarTabla(containerId, payload, isEspera) {
+            var container = document.getElementById(containerId);
+            if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
+                container.innerHTML = '<table class="centered responsive-table striped"><tbody><tr><td style="color: #ffffff;">No se encontraron registros.</td></tr></tbody></table>';
+                return;
+            }
+
+            var headers = payload.headers.slice();
+            headers.push('Acción');
+
+            var table = '<table class="centered responsive-table striped">';
+            table += '<thead><tr>';
+            for (var i = 0; i < headers.length; i++) {
+                table += '<th>' + headers[i] + '</th>';
+            }
+            table += '</tr></thead><tbody>';
+
+            var data = payload.data;
+            for (var i = 0; i < data.length; i++) {
+                var row = data[i];
+                var id = row[0]; // Asume que el ID está en la primera columna
+                table += '<tr id="row-' + id + '">';
+                for (var j = 0; j < row.length; j++) {
+                    table += '<td>' + row[j] + '</td>';
+                }
+
+                var actionBtn = isEspera ?
+                    '<button id="btn-' + id + '" onclick="borrarEspera(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar<br>Espera</span></button>' :
+                    '<button id="btn-' + id + '" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar<br>Reserva</span></button>';
+
+                table += '<td>' + actionBtn + '</td>';
+                table += '</tr>';
+            }
+            table += '</tbody></table>';
+            container.innerHTML = table;
+        }
+
+        function cargarDatos() {
+            document.getElementById("dataTableReserva").innerHTML = '<div class="progress" style="background-color: #bbdefb;"><div class="indeterminate" style="background-color: var(--buk-color-primary);"></div></div>';
+            document.getElementById("dataTableFila").innerHTML = '<div class="progress" style="background-color: #bbdefb;"><div class="indeterminate" style="background-color: var(--buk-color-primary);"></div></div>';
+
+            google.script.run
+                .withSuccessHandler(function (usuario) {
+                    document.getElementById("currentUser").innerHTML = usuario.email;
+                    if (usuario.nombre) {
+                        var inputNombre = document.getElementById("nombreUsuario");
+                        if (inputNombre && !inputNombre.value) {
+                            inputNombre.value = usuario.nombre;
+                            M.updateTextFields();
+                        }
+                    }
+                    marcarLlamadoCompletado();
+                })
+                .withFailureHandler(function (error) {
+                    console.error("Error al obtener datos del usuario actual:", error);
+                    document.getElementById("currentUser").innerHTML = "Error al cargar";
+                    marcarLlamadoCompletado();
+                })
+                .getDatosUsuarioActual();
+
+            google.script.run
+                .withSuccessHandler(function (payload) {
+                    renderizarTabla("dataTableReserva", payload, false);
+                    marcarLlamadoCompletado();
+                })
+                .withFailureHandler(function (error) {
+                    console.error("Error al obtener reservas:", error);
+                    document.getElementById("dataTableReserva").innerHTML = '<tr><td style="color: var(--cancel-red);">Error al cargar reservas.</td></tr>';
+                    marcarLlamadoCompletado();
+                })
+                .getDataReserva();
+
+            google.script.run
+                .withSuccessHandler(function (payload) {
+                    renderizarTabla("dataTableFila", payload, true);
+                    marcarLlamadoCompletado();
+                })
+                .withFailureHandler(function (error) {
+                    console.error("Error al obtener cola de espera:", error);
+                    document.getElementById("dataTableFila").innerHTML = '<tr><td style="color: var(--cancel-red);">Error al cargar cola de espera.</td></tr>';
+                    marcarLlamadoCompletado();
+                })
+                .getDataFila();
+        }
+
+        function enviarReserva(event) {
+            event.preventDefault();
+
+            var btn = document.getElementById('btnEnviarReserva');
+            var originalText = btn.innerHTML;
+
+            // Estado de carga en botón
+            btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div> Procesando...';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+
+            var datos = {
+                nombre: document.getElementById("nombreUsuario").value.trim(),
+                placa: document.getElementById("placa").value.trim().toUpperCase(),
+                fecha: document.getElementById("fechaReserva").value,
+                turno: document.querySelector('input[name="turno"]:checked').value
+            };
+
+            google.script.run
+                .withSuccessHandler(function (resultado) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+
+                    if (resultado.success) {
+                        M.toast({ html: resultado.message, classes: 'green rounded', displayLength: 4000 });
+                        document.getElementById("fechaReserva").value = '';
+                        cargarDatos();
+                    } else {
+                        M.toast({ html: resultado.message, classes: 'red rounded', displayLength: 4000 });
+                    }
+                })
+                .withFailureHandler(function (error) {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    M.toast({ html: 'Error del servidor: ' + error.message, classes: 'red darken-2 rounded', displayLength: 4000 });
+                })
+                .procesarNuevaReservaWeb(datos);
+        }
+
+        function manejarCancelacion(id, functionName) {
+            var btn = document.getElementById('btn-' + id);
+            var row = document.getElementById('row-' + id);
+
+            // Reemplazar boton con spinner pequeño integrado
+            var originalText = btn.innerHTML;
+            btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>';
+            btn.disabled = true;
+            btn.style.opacity = '0.7';
+            btn.style.cursor = 'not-allowed';
+
+            google.script.run
+                .withSuccessHandler(function (resultado) {
+                    if (resultado.success) {
+                        M.toast({ html: resultado.message, classes: 'green rounded', displayLength: 4000 });
+                        // Eliminar la fila al instante sin recargar la página
+                        if (row) {
+                            row.style.transition = 'opacity 0.3s ease-out';
+                            row.style.opacity = '0';
+                            setTimeout(function () { row.remove(); }, 300);
+                        }
+                    } else {
+                        M.toast({ html: resultado.message, classes: 'red rounded', displayLength: 4000 });
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                        btn.style.cursor = 'pointer';
+                    }
+                })
+                .withFailureHandler(function (error) {
+                    M.toast({ html: 'Error del servidor: ' + error.message, classes: 'red darken-2 rounded', displayLength: 4000 });
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                    btn.style.opacity = '1';
+                    btn.style.cursor = 'pointer';
+                })
+                .cancelarReserva(id);
+        }
+
+        function borrarReserva(id) { manejarCancelacion(id, 'Reserva'); }
+        function borrarEspera(id) { manejarCancelacion(id, 'Espera'); }
+    </script>
+</head>
+
+<body>
+
+    <!-- PRELOADER OVERLAY (ESTILO EXACTO SUI.IO) -->
+    <div id="preloader" class="preloader-overlay">
+        <!-- Círculos concéntricos de fondo -->
+        <svg class="preloader-bg-circles" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <circle cx="500" cy="500" r="150" class="bg-circle" />
+            <circle cx="500" cy="500" r="280" class="bg-circle" />
+            <circle cx="500" cy="500" r="420" class="bg-circle" />
+        </svg>
+
+        <!-- Logo de BUK animado en el preloader -->
+        <div id="preloader-logo-container" class="preloader-logo-container">
+            <!-- La matriz en el fondo -->
+            <div id="preloaderMatrix"></div>
+            <!-- La máscara que recorta la luz con la palabra gigante BUK -->
+            <div class="buk-text-mask">
+                <h1>BUK</h1>
+            </div>
+        </div>
+
+        <!-- Contenedor central de la barra de progreso -->
+        <div id="progress-container-wrap" class="sui-progress-container">
+            <div class="intro_map">
+                <!-- Este es el elemento que se mueve horizontalmente -->
+                <div id="loading-bar" class="line_progress">
+                    
+                    <!-- Indicador de porcentaje arriba (cuadradito y texto) -->
+                    <div class="current_percent">
+                        <div class="percent_wrapper">
+                            <div class="block-12 bg-primary-blue"></div>
+                            <div id="loading-percent" class="ts-16px">0%</div>
+                        </div>
+                        <!-- Línea discontinua vertical corta (5 pequeñas rayas) -->
+                        <div class="pointer-line"></div>
+                    </div>
+
+                    <!-- El cometa degradado que se estira al avanzar (degradado CSS puro premium de Sui.io) -->
+                    <div id="loading-comet" class="line_current"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="custom-nav">
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><i class="material-icons" aria-hidden="true">directions_car</i>Sistema de
+                Estacionamientos ·BUK·</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
+
+
+            <div class="col s12">
+                <h5 class="light" style="font-size: 1.1rem; margin: 0; color: #e2e8f0;">
+                    Gestionando reservas para: <span id='currentUser'
+                        style="font-weight: 600; color: var(--buk-color-secondary);">Cargando...</span>
+                </h5>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- NUEVA TARJETA: SOLICITAR ESTACIONAMIENTO   -->
+        <!-- ========================================== -->
+        <div class="row" style="display: none;" id="seccion-solicitar-estacionamiento">
+            <div class="col s12">
+                <div class="table-card" style="border-left: 5px solid var(--buk-color-primary);">
+                    <h5 class="section-title"><i class="material-icons" aria-hidden="true">add_circle</i> Solicitar
+                        Estacionamiento</h5>
+                    <form id="formReserva" onsubmit="enviarReserva(event)">
+                        <!-- Fila 1: Nombre y Placa -->
+                        <div class="row" style="margin-bottom: 0;">
+                            <!-- Campo Nombre -->
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix" aria-hidden="true">person</i>
+                                <input id="nombreUsuario" type="text" required placeholder="Ej: Juan Pérez">
+                                <label for="nombreUsuario" class="active">Nombre Completo *</label>
+                            </div>
+
+                            <!-- Campo Placa -->
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix" aria-hidden="true">directions_car</i>
+                                <input id="placa" type="text" required placeholder="Ej: ABC-123"
+                                    style="text-transform: uppercase;" maxlength="7">
+                                <label for="placa" class="active">Placa del Vehículo *</label>
+                            </div>
+                        </div>
+
+                        <!-- Fila 2: Fecha y Turno -->
+                        <div class="row" style="margin-bottom: 0;">
+                            <!-- Campo Fecha -->
+                            <div class="input-field col s12 m6">
+                                <i class="material-icons prefix" aria-hidden="true">date_range</i>
+                                <input id="fechaReserva" type="date" required onclick="this.showPicker()"
+                                    onkeydown="return false" style="cursor: pointer; caret-color: transparent;">
+                                <label for="fechaReserva" class="active">Fecha de Uso *</label>
+                            </div>
+
+                            <!-- Opciones de Turno -->
+                            <div class="col s12 m6" style="padding-top: 15px;">
+                                <label
+                                    style="font-size: 0.85rem; color: #9e9e9e; display: block; margin-bottom: 5px;">Turno
+                                    *</label>
+                                <label style="margin-right: 15px;">
+                                    <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO" checked />
+                                    <span style="color: #424242;">Día Completo</span>
+                                </label>
+                                <label style="margin-right: 15px;">
+                                    <input class="with-gap" name="turno" type="radio" value="AM" />
+                                    <span style="color: #424242;">AM</span>
+                                </label>
+                                <label>
+                                    <input class="with-gap" name="turno" type="radio" value="PM" />
+                                    <span style="color: #424242;">PM</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Botón Enviar -->
+                        <div class="row" style="margin-bottom: 0; margin-top: 15px; text-align: right;">
+                            <div class="col s12">
+                                <button type="submit" id="btnEnviarReserva" class="btn waves-effect waves-light"
+                                    style="background-color: var(--buk-color-primary); border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(47, 77, 170, 0.2);">
+                                    <i class="material-icons left" aria-hidden="true">send</i> Enviar Solicitud
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- ========================================== -->
+
+        <div class="row">
+            <div class="col s12">
+                <div class="table-card">
+                    <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis Reservas
+                        Confirmadas</h5>
+                    <div id='dataTableReserva'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col s12">
+                <div class="table-card">
+                    <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis Reservas
+                        en Fila de Espera</h5>
+                    <div id='dataTableFila'>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER SUI STYLE MATRIX GRID + MASK -->
+    <div id="real-matrix-footer" class="sui-matrix-footer">
+        <!-- La matriz en el fondo -->
+        <div id="suiMatrixFooter"></div>
+        <!-- La máscara que recorta la luz con la palabra gigante BUK -->
+        <div class="buk-text-mask">
+            <h1>BUK</h1>
+        </div>
+    </div>
+</body>
+
+</html>
