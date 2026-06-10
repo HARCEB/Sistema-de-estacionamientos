@@ -27,8 +27,10 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #000000; /* Fondo negro puro */
-            z-index: 9999; /* Por encima de todo */
+            background-color: #000000;
+            /* Fondo negro puro */
+            z-index: 9999;
+            /* Por encima de todo */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -83,9 +85,11 @@
             position: absolute;
             top: 50%;
             left: 0%;
-            width: 12px; /* Mismo ancho del cuadradito azul para centrar el origen */
+            width: 12px;
+            /* Mismo ancho del cuadradito azul para centrar el origen */
             height: 12px;
-            transform: translate(-50%, -50%); /* Centra el punto de anclaje en el left exacto */
+            transform: translate(-50%, -50%);
+            /* Centra el punto de anclaje en el left exacto */
             will-change: left;
             transition: left 0.1s linear;
         }
@@ -93,7 +97,8 @@
         /* Indicador de porcentaje superior (cuadradito, texto, 3 rayas) */
         .current_percent {
             position: absolute;
-            bottom: 12px; /* Sube desde el centro horizontal */
+            bottom: 12px;
+            /* Sube desde el centro horizontal */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -114,7 +119,8 @@
         .block-12 {
             width: 12px;
             height: 12px;
-            background-color: #ffffff; /* Blanco */
+            background-color: #ffffff;
+            /* Blanco */
             box-shadow: 0 0 10px #ffffff;
         }
 
@@ -133,19 +139,25 @@
             width: 1px;
             height: 40px;
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 0%);
-            background-size: 1px 8px; /* 4px línea y 4px espacio (5 rayas en 40px) */
+            background-size: 1px 8px;
+            /* 4px línea y 4px espacio (5 rayas en 40px) */
             background-repeat: repeat-y;
         }
 
         /* Cometa/Estela de luz que se estira (degradado CSS puro premium de Sui.io) */
         .line_current {
             position: absolute;
-            right: 6px; /* Centrado con el origen del cuadradito de 12px */
+            right: 6px;
+            /* Centrado con el origen del cuadradito de 12px */
             top: 50%;
-            width: 15em; /* Ancho de la estela */
-            height: 21.33px; /* Grosor de la estela solicitado por el usuario */
-            transform-origin: 100% 50%; /* Se estira hacia la izquierda desde la cabeza */
-            transform: translateY(-50%) scaleX(0); /* Inicialmente colapsado */
+            width: 15em;
+            /* Ancho de la estela */
+            height: 21.33px;
+            /* Grosor de la estela solicitado por el usuario */
+            transform-origin: 100% 50%;
+            /* Se estira hacia la izquierda desde la cabeza */
+            transform: translateY(-50%) scaleX(0);
+            /* Inicialmente colapsado */
             opacity: 0;
             pointer-events: none;
             transition: transform 0.2s ease, opacity 0.2s ease;
@@ -185,7 +197,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: 100% 50%; /* Posicionamiento oficial de Sui.io */
+            object-position: 100% 50%;
+            /* Posicionamiento oficial de Sui.io */
             flex: none;
             display: block;
         }
@@ -493,7 +506,8 @@
             overflow: hidden;
             position: relative;
             height: 650px;
-            opacity: 0; /* Empieza invisible para evitar el doble logo en la animación */
+            opacity: 0;
+            /* Empieza invisible para evitar el doble logo en la animación */
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
@@ -571,7 +585,8 @@
         }
 
         .buk-text-mask h1 {
-            font-size: clamp(8rem, 28vw, 25rem); /* Ajustado de 12rem/35vw/35rem para evitar cortes verticales */
+            font-size: clamp(8rem, 28vw, 25rem);
+            /* Ajustado de 12rem/35vw/35rem para evitar cortes verticales */
             font-weight: 900;
             line-height: 0.8;
             letter-spacing: -0.02em;
@@ -609,7 +624,7 @@
                 // Estiramiento proporcional: se estira gradualmente del 0% al 25% de la carga
                 var scaleVal = Math.min(1, percent / 25);
                 var opacityVal = Math.min(1, percent / 10);
-                
+
                 loadingComet.style.transform = "translateY(-50%) scaleX(" + scaleVal + ")";
                 loadingComet.style.opacity = opacityVal;
             }
@@ -948,7 +963,8 @@
     <!-- PRELOADER OVERLAY (ESTILO EXACTO SUI.IO) -->
     <div id="preloader" class="preloader-overlay">
         <!-- Círculos concéntricos de fondo -->
-        <svg class="preloader-bg-circles" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <svg class="preloader-bg-circles" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true">
             <circle cx="500" cy="500" r="150" class="bg-circle" />
             <circle cx="500" cy="500" r="280" class="bg-circle" />
             <circle cx="500" cy="500" r="420" class="bg-circle" />
@@ -969,7 +985,7 @@
             <div class="intro_map">
                 <!-- Este es el elemento que se mueve horizontalmente -->
                 <div id="loading-bar" class="line_progress">
-                    
+
                     <!-- Indicador de porcentaje arriba (cuadradito y texto) -->
                     <div class="current_percent">
                         <div class="percent_wrapper">
