@@ -180,3 +180,53 @@ function eliminarFilaAdmin() {
 		lock.releaseLock();
 	}
 }
+
+function penalizarUsuarioUI() {
+	var lock = LockService.getDocumentLock();
+	try {
+		lock.waitLock(60000); // Esperar un máximo de 60 segundos
+		const spreadsheetAdmin = obtenerHojaPrincipal().getSheetByName('ADMIN');
+		
+		// Usaremos la celda C15 para ingresar el email a penalizar
+		const emailRange = spreadsheetAdmin.getRange("C15");
+		const email = emailRange.getValue();
+		
+		if (emailRange.isBlank() || !email || String(email).trim() === "") {
+			SpreadsheetApp.getUi().alert("Debes ingresar el correo del usuario en la celda C15");
+			return;
+		}
+		
+		const emailStr = String(email).trim();
+		// Validación simple de email
+		if (!emailStr.includes("@")) {
+			SpreadsheetApp.getUi().alert("El correo ingresado no es válido.");
+			return;
+		}
+		
+		// Preguntar confirmación para evitar penalizaciones accidentales
+		const ui = SpreadsheetApp.getUi();
+		const response = ui.alert(
+			'Confirmar Penalización',
+			`¿Estás seguro de que deseas penalizar al usuario ${emailStr}?\nEsto le impedirá reservar por 2 semanas y cancelará todas sus reservas futuras de forma inmediata.`,
+			ui.ButtonSet.YES_NO
+		);
+		
+		if (response !== ui.Button.YES) {
+			Logger.log("Penalización cancelada por el administrador.");
+			return;
+		}
+		
+		// Ejecutar la penalización
+		penalizarUsuario(emailStr);
+		
+		// Limpiar la celda de entrada
+		emailRange.clearContent();
+		
+		ui.alert(`Sanción aplicada con éxito a ${emailStr} por 2 semanas. Se han cancelado sus reservas futuras y notificado por correo.`);
+	} catch (error) {
+		Logger.log("Error en penalizarUsuarioUI: " + error.toString());
+		SpreadsheetApp.getUi().alert("Ocurrió un error al procesar la penalización: " + error.toString());
+	} finally {
+		lock.releaseLock();
+	}
+}

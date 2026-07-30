@@ -309,8 +309,7 @@ function verificarRestriccionUsuario(email, fecha, idAExcluir = null) {
     }
 
     // 3. Aplicación de reglas de negocio
-    const adminsSinLimite = ["capaza@buk.pe"];
-    const esAdmin = adminsSinLimite.includes(emailAComparar);
+    const esAdmin = esUsuarioAdministrador(emailAComparar);
 
     if (reservasMismoDia > 0 && !esAdmin) {
         const razon = `Ya tienes una reserva o estás en fila de espera para el día ${fecha}. No puedes solicitar dos estacionamientos para el mismo día.`;

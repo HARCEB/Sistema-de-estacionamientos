@@ -70,3 +70,58 @@ function getIndexMatch(hoja, rango, valor) {
     .findAll()
     .map(data => data.getRow())
 }
+
+/**
+ * Retorna la lista de correos electrónicos de los administradores del sistema.
+ * Si la hoja "ADMINS" no existe, la crea de forma automatizada e inserta al admin por defecto.
+ * @returns {string[]} Lista de correos en minúsculas.
+ */
+function obtenerListaAdministradores() {
+  try {
+    const ss = obtenerHojaPrincipal();
+    let sheetAdmins = ss.getSheetByName('ADMINS');
+    
+    // Si la hoja de administradores no existe (Self-Healing), la creamos de inmediato
+    if (!sheetAdmins) {
+      Logger.log("Creando hoja ADMINS de forma automática...");
+      sheetAdmins = ss.insertSheet('ADMINS');
+      // Escribir cabecera y el administrador principal por defecto
+      sheetAdmins.getRange("A1").setValue("Email");
+      sheetAdmins.getRange("A2").setValue("capaza@buk.pe");
+      SpreadsheetApp.flush();
+    }
+    
+    const displayValues = sheetAdmins.getDataRange().getDisplayValues();
+    const listaAdmins = [];
+    
+    // Leer correos (saltar fila 1 de cabeceras)
+    for (let i = 1; i < displayValues.length; i++) {
+      const email = displayValues[i][0];
+      if (email && email.toString().trim() !== "") {
+        listaAdmins.push(email.toString().trim().toLowerCase());
+      }
+    }
+    
+    // Asegurar que al menos esté capaza@buk.pe en caso de que la hoja esté vacía por error
+    if (listaAdmins.length === 0) {
+      listaAdmins.push("capaza@buk.pe");
+    }
+    
+    return listaAdmins;
+  } catch (error) {
+    Logger.log("Error al obtener lista de administradores: " + error);
+    // Fallback de seguridad en caso de cualquier error crítico
+    return ["capaza@buk.pe"];
+  }
+}
+
+/**
+ * Verifica si un correo corresponde a un administrador del sistema.
+ * @param {string} email - Correo a verificar.
+ * @returns {boolean} true si es administrador, false de lo contrario.
+ */
+function esUsuarioAdministrador(email) {
+  if (!email) return false;
+  const listaAdmins = obtenerListaAdministradores();
+  return listaAdmins.includes(email.trim().toLowerCase());
+}

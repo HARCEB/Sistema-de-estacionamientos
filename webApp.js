@@ -176,18 +176,64 @@ function getDatosUsuarioActual() {
     Logger.log("Error buscando nombre: " + e);
   }
   
-  return { email: email, nombre: nombre };
+  // Validar rol de administrador dinámicamente desde Sheets
+  var esAdmin = false;
+  try {
+    esAdmin = esUsuarioAdministrador(email);
+  } catch(errAdmin) {
+    Logger.log("Error verificando rol de admin: " + errAdmin);
+  }
+  
+  return { email: email, nombre: nombre, esAdmin: esAdmin };
 }
 
 
 // HERRAMIENTA DE ADMINISTRADOR: Forzar cancelación
 function forzarCancelacionAdmin() {
   // 1. Pega el ID de la reserva entre las comillas
-  var idParaBorrar = "buker-a28deuxem7t-1778861855925"; 
+  var idParaBorrar = "buker-dw7pvz4wmv-1782831890965"; 
   
   // 2. Ejecutamos la función maestra de cancelación
   var resultado = cancelarReserva(idParaBorrar);
   
   // 3. Imprimimos el resultado para confirmar que todo salió bien
   Logger.log(resultado.message);
+}
+
+/**
+ * Procesa la penalización de un usuario desde la Web App de forma segura
+ * @param {string} emailUsuarioAPenalizar - Correo del usuario a sancionar
+ * @returns {object} Estado de éxito o error
+ */
+function penalizarUsuarioDesdeWeb(emailUsuarioAPenalizar) {
+  var emailActual = Session.getActiveUser().getEmail();
+  
+  // Validar seguridad en servidor dinámicamente desde Sheets
+  if (!esUsuarioAdministrador(emailActual)) {
+    return {
+      success: false,
+      message: "Error de permisos: Solo los administradores pueden aplicar penalizaciones."
+    };
+  }
+  
+  if (!emailUsuarioAPenalizar || String(emailUsuarioAPenalizar).trim() === "") {
+    return {
+      success: false,
+      message: "Error: Debes ingresar un correo electrónico válido."
+    };
+  }
+  
+  try {
+    penalizarUsuario(emailUsuarioAPenalizar);
+    return {
+      success: true,
+      message: "Sanción aplicada exitosamente a " + emailUsuarioAPenalizar + " por 14 días. Sus reservas futuras han sido canceladas."
+    };
+  } catch (error) {
+    Logger.log("Error al penalizar desde WebApp: " + error);
+    return {
+      success: false,
+      message: "Hubo un error al procesar la penalización: " + error.toString()
+    };
+  }
 }
