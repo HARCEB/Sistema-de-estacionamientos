@@ -1,23 +1,87 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <base target="_top">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
     <style>
-        /* DEFINICIÓN DE VARIABLES DE COLOR BUK */
-        :root {
+        /* ============================================================================
+           SISTEMA DE VARIABLES DE DISEÑO (LIGHT MODE OFICIAL BUK & DARK MODE SUI)
+           ============================================================================ */
+        :root,
+        :root[data-theme="light"] {
             --buk-color-primary: #2f4daa;
             --buk-color-secondary: #00a4bd;
-            --background-light: #f4f8fb;
             --cancel-red: #e53935;
             --cancel-red-hover: #d32f2f;
+
+            /* MODO CLARO OFICIAL BUK */
+            --bg-page: #f4f8fb;
+            --bg-card: #ffffff;
+            --bg-nav: rgba(255, 255, 255, 0.9);
+            --border-card: #e2e8f0;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --table-header-bg: #f1f5f9;
+            --table-header-text: #475569;
+            --table-row-hover: #f8fafc;
+            --btn-ghost-border: rgba(229, 57, 53, 0.25);
+            --btn-ghost-bg: rgba(229, 57, 53, 0.04);
+            --btn-ghost-text: #e53935;
+            --shadow-card: 0 10px 25px -5px rgba(47, 77, 170, 0.06), 0 8px 10px -6px rgba(47, 77, 170, 0.03);
+            
+            --badge-completo-bg: #e0f2fe;
+            --badge-completo-text: #0369a1;
+            --badge-am-bg: #fef3c7;
+            --badge-am-text: #b45309;
+            --badge-pm-bg: #f3e8ff;
+            --badge-pm-text: #6b21a8;
+        }
+
+        :root[data-theme="dark"] {
+            --buk-color-primary: #2f4daa;
+            --buk-color-secondary: #00a4bd;
+            --cancel-red: #e53935;
+            --cancel-red-hover: #d32f2f;
+
+            /* MODO OSCURO FUTURISTA */
+            --bg-page: #000000;
+            --bg-card: #0d1117;
+            --bg-nav: rgba(10, 14, 23, 0.8);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --table-header-bg: rgba(47, 77, 170, 0.15);
+            --table-header-text: #94a3b8;
+            --table-row-hover: rgba(0, 164, 189, 0.1);
+            --btn-ghost-border: rgba(229, 57, 53, 0.4);
+            --btn-ghost-bg: rgba(229, 57, 53, 0.15);
+            --btn-ghost-text: #ff8a80;
+            --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.8);
+
+            --badge-completo-bg: rgba(0, 164, 189, 0.2);
+            --badge-completo-text: #38bdf8;
+            --badge-am-bg: rgba(245, 158, 11, 0.2);
+            --badge-am-text: #fbbf24;
+            --badge-pm-bg: rgba(168, 85, 247, 0.2);
+            --badge-pm-text: #c084fc;
+        }
+
+        /* ESTILOS GENERALES DEL BODY */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         /* --- ESTILOS DEL PRELOADER PREMIUM EXACTO SUI.IO --- */
@@ -28,9 +92,7 @@
             width: 100vw;
             height: 100vh;
             background-color: #000000;
-            /* Fondo negro puro */
             z-index: 9999;
-            /* Por encima de todo */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -47,7 +109,6 @@
             pointer-events: none;
         }
 
-        /* Círculos concéntricos de fondo */
         .preloader-bg-circles {
             position: absolute;
             width: 100vw;
@@ -64,7 +125,6 @@
             stroke-width: 1px;
         }
 
-        /* Contenedor de la barra de progreso */
         .sui-progress-container {
             position: relative;
             z-index: 2;
@@ -83,26 +143,20 @@
             height: 100%;
         }
 
-
-        /* Elemento de progreso que se desplaza horizontalmente */
         .line_progress {
             position: absolute;
             top: 50%;
             left: 0%;
             width: 12px;
-            /* Mismo ancho del cuadradito azul para centrar el origen */
             height: 12px;
             transform: translate(-50%, -50%);
-            /* Centra el punto de anclaje en el left exacto */
             will-change: left;
             transition: left 0.1s linear;
         }
 
-        /* Indicador de porcentaje superior (cuadradito, texto, 3 rayas) */
         .current_percent {
             position: absolute;
             bottom: 12px;
-            /* Sube desde el centro horizontal */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -119,16 +173,13 @@
             margin-bottom: 6px;
         }
 
-        /* Cuadradito blanco */
         .block-12 {
             width: 12px;
             height: 12px;
             background-color: #ffffff;
-            /* Blanco */
             box-shadow: 0 0 10px #ffffff;
         }
 
-        /* Texto de porcentaje */
         .ts-16px {
             font-family: 'Montserrat', sans-serif;
             font-size: 1rem;
@@ -138,30 +189,22 @@
             white-space: nowrap;
         }
 
-        /* Línea vertical de 5 pequeñas rayas (más alta) */
         .pointer-line {
             width: 1px;
             height: 40px;
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 0%);
             background-size: 1px 8px;
-            /* 4px línea y 4px espacio (5 rayas en 40px) */
             background-repeat: repeat-y;
         }
 
-        /* Cometa/Estela de luz que se estira (degradado CSS puro premium de Sui.io) */
         .line_current {
             position: absolute;
             right: 6px;
-            /* Centrado con el origen del cuadradito de 12px */
             top: 50%;
             width: 15em;
-            /* Ancho de la estela */
             height: 21.33px;
-            /* Grosor de la estela solicitado por el usuario */
             transform-origin: 100% 50%;
-            /* Se estira hacia la izquierda desde la cabeza */
             transform: translateY(-50%) scaleX(0);
-            /* Inicialmente colapsado */
             opacity: 0;
             pointer-events: none;
             transition: transform 0.2s ease, opacity 0.2s ease;
@@ -170,7 +213,6 @@
             border-radius: 4px;
         }
 
-        /* Contenedor del logo de BUK en el preloader */
         .preloader-logo-container {
             position: absolute;
             left: 0;
@@ -188,14 +230,13 @@
             display: block;
         }
 
-        /* Wrapper unificado para transición cinemática de enfoque */
         #app-content-wrapper {
             opacity: 0;
-            transform: scale(0.96);
+            transform: scale(0.97);
             filter: blur(8px);
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform, filter;
         }
 
@@ -205,106 +246,144 @@
             filter: blur(0);
         }
 
-        /* Imagen del degradado de Sui */
-        .line_current img.image-9 {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: 100% 50%;
-            /* Posicionamiento oficial de Sui.io */
-            flex: none;
-            display: block;
-        }
-
-        /* Clase de movimiento: estira el cometa y le da opacidad */
-        .line_current.moving {
-            transform: translateY(-50%) scaleX(1);
-            opacity: 1;
-        }
-
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #000000;
-            /* Negro absoluto puro Sui */
-            color: #cbd5e1;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-        }
-
-        /* EXPANDIR EL CONTENEDOR AL 95% DE LA PANTALLA */
         .container {
             width: 95% !important;
             max-width: 1600px !important;
         }
 
-        /* --- ESTILOS DE LA BARRA SUPERIOR (NAVBAR) --- */
+        /* --- NAVBAR MODERNA Y TARJETA DE PERFIL DE USUARIO --- */
         nav.custom-nav {
-            background: rgba(10, 14, 23, 0.7) !important;
+            background: var(--bg-nav) !important;
             backdrop-filter: blur(12px) saturate(180%);
             -webkit-backdrop-filter: blur(12px) saturate(180%);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-            border-bottom: 1px solid rgba(0, 164, 189, 0.2);
-            /* Borde neón celeste */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            border-bottom: 1px solid var(--border-card);
             position: sticky;
             top: 0;
             z-index: 100;
+            height: 70px;
+            line-height: 70px;
+            transition: background 0.3s ease, border 0.3s ease;
         }
 
-        .nav-wrapper .brand-logo {
+        .nav-wrapper-custom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 30px;
+        }
+
+        .brand-logo-custom {
             font-weight: 800;
-            font-size: 1.8rem;
-            padding-left: 20px;
+            font-size: 1.4rem;
             display: flex;
             align-items: center;
+            gap: 12px;
             letter-spacing: -0.02em;
-            /* Degradado base */
-            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            color: transparent;
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        .brand-logo-custom i {
+            font-size: 1.8rem;
+            color: var(--buk-color-secondary);
+        }
+
+        .user-avatar-badge {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 16px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 30px;
+            box-shadow: var(--shadow-card);
             transition: all 0.3s ease;
         }
 
-        /* El efecto Glow al hacer hover (Difuminado Sui Style) */
-        .nav-wrapper .brand-logo:hover {
-            text-shadow: 0 0 20px rgba(0, 164, 189, 0.8), 0 0 40px rgba(47, 77, 170, 0.6);
+        .avatar-circle {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            box-shadow: 0 2px 6px rgba(0, 164, 189, 0.3);
         }
 
-        .nav-wrapper .brand-logo i {
-            margin-right: 12px;
-            font-size: 2rem;
+        .user-info-wrap {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        .user-email-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .user-role-tag {
+            font-size: 0.72rem;
             color: var(--buk-color-secondary);
-            -webkit-text-fill-color: var(--buk-color-secondary);
+            font-weight: 500;
         }
 
-        /* --- ESTILOS DE LAS TARJETAS (ASSET AND SERVICE COORDINATION STYLE) --- */
+        .theme-toggle-btn {
+            background: var(--bg-card) !important;
+            border: 1px solid var(--border-card) !important;
+            color: var(--text-main) !important;
+            box-shadow: var(--shadow-card) !important;
+            width: 40px !important;
+            height: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle-btn:hover {
+            transform: scale(1.08);
+            border-color: var(--buk-color-secondary) !important;
+        }
+
+        .theme-toggle-btn i {
+            font-size: 1.3rem;
+            color: var(--text-main);
+        }
+
+        /* --- ESTILOS DE LAS TARJETAS (TABLE-CARD BUK STYLE) --- */
         .table-card {
-            background-color: #0d1117;
-            /* Gris muy oscuro, casi negro */
-            border-radius: 12px;
-            /* Más estructurado, menos redondo */
-            padding: 25px 30px;
-            /* Borde estructural de 1px */
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
-            margin-top: 30px;
-            margin-bottom: 30px;
+            background-color: var(--bg-card);
+            border-radius: 16px;
+            padding: 28px 32px;
+            border: 1px solid var(--border-card);
+            box-shadow: var(--shadow-card);
+            margin-top: 25px;
+            margin-bottom: 25px;
             width: 100%;
+            transition: background-color 0.4s ease, border 0.4s ease, box-shadow 0.4s ease;
         }
 
         .section-title {
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 800;
-            /* Gradient Text BUK */
             background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             color: transparent;
             margin-top: 0;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -319,184 +398,136 @@
             color: transparent;
         }
 
-        /* Contenedores de las tablas */
         #dataTableReserva,
         #dataTableFila {
             width: 100%;
             overflow-x: auto;
-            border-radius: 8px;
+            border-radius: 12px;
         }
 
-        /* --- ESTILOS DE LAS TABLAS INYECTADAS --- */
-        table {
+        /* --- ESTILOS DE LAS TABLAS LIMPIAS Y MODERNAS (SIN COLUMNA DE ID VISIBLE) --- */
+        table.custom-buk-table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
-            table-layout: auto;
         }
 
-        thead th {
-            background-color: rgba(47, 77, 170, 0.15);
-            /* Fondo azul oscuro corporativo */
-            color: #94a3b8;
+        table.custom-buk-table thead th {
+            background-color: var(--table-header-bg);
+            color: var(--table-header-text);
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            padding: 16px 8px;
-            border-bottom: 1px solid rgba(0, 164, 189, 0.3);
-            /* Línea celeste estructural */
+            font-size: 0.76rem;
+            letter-spacing: 0.06em;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border-card);
             text-align: center;
         }
 
-        tbody tr {
-            transition: background-color 0.2s ease, transform 0.2s ease;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        table.custom-buk-table tbody tr {
+            transition: background-color 0.2s ease;
+            border-bottom: 1px solid var(--border-card);
         }
 
-        tbody tr:hover {
-            background-color: rgba(0, 164, 189, 0.1);
-            /* Tinte de neón celeste al hacer hover */
+        table.custom-buk-table tbody tr:hover {
+            background-color: var(--table-row-hover);
         }
 
-        td {
-            padding: 10px 6px;
-            /* Ajuste horizontal */
-            font-size: 0.88rem;
-            /* Ajuste para zoom 100% */
-            color: #ffffff;
-            /* Texto blanco puro intenso */
+        table.custom-buk-table td {
+            padding: 14px 18px;
+            font-size: 0.92rem;
+            color: var(--text-main);
             text-align: center;
-            word-break: break-word;
-            /* Parte el ID en dos lineas para ocupar menos espacio */
             vertical-align: middle;
         }
 
-        /* Fuerza a la columna ID a ser estrecha para obligar el salto de línea */
-        th:first-child,
-        td:first-child {
-            width: 130px;
-            /* Ancho fijo para la primera columna */
-            max-width: 130px;
-            /* Límite máximo para forzar el quiebre */
+        /* BADGES DE TURNO */
+        .status-badge {
+            display: inline-block;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
         }
 
-        /* --- ESTILOS DE LOS BOTONES DE CANCELAR (EFECTO CRISTAL REAL / FROSTED GLASS) --- */
-        td button {
-            position: relative;
-            display: inline-flex !important;
-            flex-direction: column !important;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
+        .badge-dia-completo {
+            background-color: var(--badge-completo-bg);
+            color: var(--badge-completo-text);
+        }
 
-            /* EL SECRETO DEL CRISTAL OSCURO: Fondo casi negro con un toque rojo */
-            background: linear-gradient(135deg, rgba(229, 57, 53, 0.15) 0%, rgba(229, 57, 53, 0.05) 100%) !important;
+        .badge-am {
+            background-color: var(--badge-am-bg);
+            color: var(--badge-am-text);
+        }
 
-            /* EFECTO DE DESENFOQUE */
-            backdrop-filter: blur(25px) saturate(160%);
-            -webkit-backdrop-filter: blur(25px) saturate(160%);
+        .badge-pm {
+            background-color: var(--badge-pm-bg);
+            color: var(--badge-pm-text);
+        }
 
-            /* FORMA Y BORDES ILUMINADOS ROJOS */
-            border-radius: 20px !important;
-            padding: 12px 20px !important;
-            border: 1px solid rgba(229, 57, 53, 0.3) !important;
-            border-top: 1px solid rgba(229, 57, 53, 0.6) !important;
-            /* Luz pegando arriba */
-            border-bottom: 1px solid rgba(229, 57, 53, 0.1) !important;
-            /* Sombra abajo */
-
-            color: #ff8a80 !important;
-            /* Rojo claro luminoso */
-            font-family: 'Montserrat', sans-serif;
+        /* BOTÓN DE CANCELAR TIPO GHOST/OUTLINE CON HOVER ILUMINADO */
+        .btn-cancel-ghost {
+            background: var(--btn-ghost-bg) !important;
+            border: 1px solid var(--btn-ghost-border) !important;
+            color: var(--btn-ghost-text) !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 0.82rem !important;
             font-weight: 600 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
             cursor: pointer;
-            height: auto !important;
-            line-height: normal !important;
-
-            /* SOMBRA PARA ELEVAR EL CRISTAL */
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5) !important;
-
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.3s ease, box-shadow 0.3s ease;
-            white-space: nowrap;
+            transition: all 0.25s ease !important;
+            box-shadow: none !important;
         }
 
-        td button:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 12px 40px 0 rgba(229, 57, 53, 0.2) !important;
-            /* Glow rojo intenso */
-            background: linear-gradient(135deg, rgba(229, 57, 53, 0.3) 0%, rgba(229, 57, 53, 0.1) 100%) !important;
+        .btn-cancel-ghost:hover {
+            background-color: var(--cancel-red) !important;
+            color: #ffffff !important;
+            border-color: var(--cancel-red) !important;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(229, 57, 53, 0.3) !important;
         }
 
-        td button:active {
-            transform: scale(0.95);
-            transition: transform 0.1s;
+        .btn-cancel-ghost i {
+            font-size: 1.1rem !important;
+            color: inherit !important;
         }
 
-        td button:focus-visible {
-            outline: 2px solid #ff8a80;
-            outline-offset: 4px;
-        }
-
-        td button i {
-            font-size: 1.8rem;
-            margin: 0;
-            color: #ff8a80;
-            filter: drop-shadow(0 2px 4px rgba(229, 57, 53, 0.8));
-            /* Resplandor intenso en la X */
-        }
-
-        td button span {
-            font-size: 0.65rem;
-            line-height: 1.1;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
-        }
-
-        /* --- ESTILOS DE LOS LOADERS (PROGRESS BARS) --- */
-        .progress {
-            background-color: rgba(255, 255, 255, 0.1);
-            margin-top: 20px;
-        }
-
-        .progress .indeterminate {
-            background-color: var(--buk-color-secondary);
-            box-shadow: 0 0 10px var(--buk-color-secondary);
-            /* Glow */
-        }
-
-        /* --- ESTILOS MODERNOS PARA INPUTS (FORMULARIO) --- */
+        /* INPUTS Y FORMULARIOS */
         .input-field input[type=text]:focus,
-        .input-field input[type=date]:focus {
+        .input-field input[type=date]:focus,
+        .input-field input[type=email]:focus {
             border-bottom: 2px solid var(--buk-color-secondary) !important;
             box-shadow: 0 1px 0 0 var(--buk-color-secondary) !important;
         }
 
         .input-field label {
-            color: #94a3b8 !important;
+            color: var(--text-sub) !important;
         }
 
         .input-field input[type=text],
         .input-field input[type=date],
         .input-field input[type=email] {
-            color: #ffffff !important;
+            color: var(--text-main) !important;
         }
 
         .input-field label.active {
             color: var(--buk-color-secondary) !important;
-            font-weight: 500;
+            font-weight: 600;
         }
 
         .input-field .prefix {
-            color: #64748b !important;
+            color: var(--text-sub) !important;
         }
 
         .input-field .prefix.active {
             color: var(--buk-color-secondary) !important;
-            text-shadow: 0 0 8px rgba(0, 164, 189, 0.6);
-            /* Glow en icono */
         }
 
-        /* TRUCO: Estirar el ícono del calendario sobre todo el campo */
         input[type="date"] {
             position: relative;
         }
@@ -508,11 +539,10 @@
             width: 100%;
             height: 100%;
             opacity: 0;
-            /* Lo hace completamente invisible */
             cursor: pointer;
         }
 
-        /* --- ESTILOS DEL FOOTER MATRIX (SUI TYPOGRAPHY GRID) --- */
+        /* FOOTER SUI MATRIX */
         .sui-matrix-footer {
             width: 100%;
             background-color: #000000;
@@ -521,7 +551,6 @@
             position: relative;
             height: 650px;
             opacity: 0;
-            /* Empieza invisible para evitar el doble logo en la animación */
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
@@ -545,11 +574,9 @@
 
         .matrix-word {
             font-size: 0.85rem;
-            /* Más pequeña para que quepan palabras completas dentro de la máscara */
             font-weight: 800;
             letter-spacing: 0.08em;
             color: #475569;
-            /* Letras apagadas pero visibles para delinear la palabra */
             display: flex;
             gap: 2px;
             cursor: default;
@@ -567,7 +594,6 @@
             user-select: none;
         }
 
-        /* EFECTO LUZ NEÓN */
         .matrix-letter.neon-glow {
             color: var(--buk-color-secondary);
             text-shadow: 0 0 15px rgba(0, 164, 189, 0.8), 0 0 30px rgba(0, 164, 189, 0.5);
@@ -578,7 +604,6 @@
             text-shadow: 0 0 15px rgba(47, 77, 170, 0.8), 0 0 30px rgba(47, 77, 170, 0.5);
         }
 
-        /* MÁSCARA GIGANTE (Recorta la luz dentro del texto) */
         .buk-text-mask {
             position: absolute;
             top: 0;
@@ -586,9 +611,7 @@
             right: 0;
             bottom: 0;
             background-color: #000000;
-            /* Color del fondo puro, oculta la matriz afuera */
             color: #ffffff;
-            /* Color blanco, deja ver la luz de la matriz adentro */
             mix-blend-mode: darken;
             display: flex;
             align-items: center;
@@ -599,7 +622,6 @@
 
         .buk-text-mask h1 {
             font-size: clamp(8rem, 28vw, 25rem);
-            /* Ajustado de 12rem/35vw/35rem para evitar cortes verticales */
             font-weight: 900;
             line-height: 0.8;
             letter-spacing: -0.02em;
@@ -607,7 +629,6 @@
             text-align: center;
         }
 
-        /* Estilos personalizados para modal de cristal (glassmorphic) */
         .custom-glass-modal {
             border: none !important;
             background: transparent !important;
@@ -624,6 +645,97 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
+        // MOCK DE PRUEBA LOCAL (Solo se activa fuera de Google Apps Script)
+        if (typeof google === 'undefined') {
+            window.google = {
+                script: {
+                    run: {
+                        withSuccessHandler: function (cb) {
+                            var runner = {
+                                withFailureHandler: function (failCb) { return runner; },
+                                getDatosUsuarioActual: function () {
+                                    setTimeout(function () { cb({ email: 'capaza@buk.pe', nombre: 'Cristian Apaza', esAdmin: true }); }, 300);
+                                },
+                                getDataReserva: function () {
+                                    setTimeout(function () {
+                                        cb({
+                                            success: true,
+                                            headers: ['ID', 'Nombre', 'Email', 'Fecha', 'Turno', 'Cupo', 'Placa'],
+                                            data: [
+                                                ['buker-demo1', 'Cristian Apaza', 'capaza@buk.pe', '15/08/2026', 'DIA COMPLETO', 'E-01', 'ABC-123']
+                                            ]
+                                        });
+                                    }, 400);
+                                },
+                                getDataFila: function () {
+                                    setTimeout(function () {
+                                        cb({
+                                            success: true,
+                                            headers: ['ID', 'Nombre', 'Email', 'Fecha', 'Turno', 'Cupo', 'Placa'],
+                                            data: []
+                                        });
+                                    }, 500);
+                                },
+                                procesarNuevaReservaWeb: function (datos) {
+                                    setTimeout(function () { cb({ success: true, message: 'Solicitud enviada exitosamente' }); }, 500);
+                                },
+                                cancelarReserva: function (id) {
+                                    setTimeout(function () { cb({ success: true, message: 'Reserva cancelada exitosamente' }); }, 500);
+                                }
+                            };
+                            return runner;
+                        }
+                    }
+                }
+            };
+        }
+
+        // ============================================================================
+        // GESTIÓN DE TEMA (CLARO / OSCURO) Y PREFERENCIAS
+        // ============================================================================
+        function initTheme() {
+            var currentTheme = localStorage.getItem('buk-theme') || 'light';
+            document.documentElement.setAttribute('data-theme', currentTheme);
+            actualizarIconoTema(currentTheme);
+        }
+
+        function toggleTheme() {
+            var currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            var newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('buk-theme', newTheme);
+            actualizarIconoTema(newTheme);
+            if (window.M && M.toast) {
+                M.toast({ html: 'Modo ' + (newTheme === 'light' ? 'Claro Buk' : 'Oscuro') + ' activado', classes: 'rounded', displayLength: 2000 });
+            }
+        }
+
+        function actualizarIconoTema(theme) {
+            var icon = document.getElementById('theme-toggle-icon');
+            if (icon) {
+                icon.textContent = theme === 'light' ? 'dark_mode' : 'light_mode';
+            }
+        }
+
+        function obtenerIniciales(email, nombre) {
+            if (nombre && nombre.trim().length > 0) {
+                var partes = nombre.trim().split(' ');
+                if (partes.length >= 2) {
+                    return (partes[0].charAt(0) + partes[1].charAt(0)).toUpperCase();
+                }
+                return partes[0].slice(0, 2).toUpperCase();
+            }
+            if (email && email.trim().length > 0) {
+                var usuario = email.trim().split('@')[0];
+                var partesEmail = usuario.split('.');
+                if (partesEmail.length >= 2) {
+                    return (partesEmail[0].charAt(0) + partesEmail[1].charAt(0)).toUpperCase();
+                }
+                return usuario.slice(0, 2).toUpperCase();
+            }
+            return 'BUK';
+        }
+
         // Variables para el control de carga del preloader premium
         var progressPercent = 0;
         var resolvedCalls = 0;
@@ -643,14 +755,12 @@
             progressBar.style.left = percent + "%";
 
             if (isFinished) {
-                // Al finalizar al 100%, contraer la estela
                 loadingComet.style.transform = "translateY(-50%) scaleX(0)";
                 loadingComet.style.opacity = "0";
             } else {
-                // Estiramiento proporcional: se estira gradualmente del 0% al 25% de la carga
                 var scaleVal = Math.min(1, percent / 25);
                 var opacityVal = Math.min(1, percent / 10);
-
+                
                 loadingComet.style.transform = "translateY(-50%) scaleX(" + scaleVal + ")";
                 loadingComet.style.opacity = opacityVal;
             }
@@ -661,16 +771,13 @@
             var percentText = document.getElementById("loading-percent");
             if (!progressBar || !percentText) return;
 
-            // Inicializar progreso
             progressPercent = 0;
             resolvedCalls = 0;
             backendReady = false;
             logoTransitionStarted = false;
 
-            // Establecer estado inicial a 0% (cuadrado sin cola en el extremo izquierdo)
             actualizarBarraProgreso(0, false);
 
-            // Esperar 600ms en el extremo izquierdo antes de comenzar el avance
             setTimeout(function () {
                 progressInterval = setInterval(function () {
                     if (progressPercent < 100) {
@@ -685,7 +792,6 @@
                 }, 25);
             }, 600);
 
-            // Temporizador de seguridad (18 segundos) por si falla la red
             preloaderTimeout = setTimeout(function () {
                 backendReady = true;
             }, 18000);
@@ -710,20 +816,15 @@
 
             if (!progressWrap || !logoContainer) return;
 
-            // 1. Ocultar la barra de progreso
             progressWrap.style.opacity = "0";
 
-            // 2. Mostrar el logo BUK centrado en el preloader
             setTimeout(function () {
                 logoContainer.classList.add("visible");
 
-                // 3. Crear bucle de espera: Logo centrado sirve como pantalla de espera del backend
                 var logoShowStartTime = Date.now();
                 var checkInterval = setInterval(function () {
                     var elapsed = Date.now() - logoShowStartTime;
 
-                    // Mínimo 2 segundos de visualización para estética premium,
-                    // y continúa esperando hasta que backendReady sea true
                     if (backendReady && elapsed >= 2000) {
                         clearInterval(checkInterval);
                         iniciarDeslizamientoLogo();
@@ -739,29 +840,26 @@
 
             if (!preloaderOverlay) return;
 
-            // 1. Activar la entrada cinemática del contenido y desvanecer preloader
             if (appWrapper) appWrapper.classList.add("loaded");
             preloaderOverlay.classList.add("reveal-content");
 
-            // 2. Hacer visible el footer real
             if (realFooter) {
                 realFooter.classList.add("visible-now");
             }
 
-            // 3. Remover el preloader tras completarse la animación (1.2s)
             setTimeout(function () {
                 preloaderOverlay.remove();
             }, 1200);
         }
 
         window.onload = function () {
+            initTheme();
             iniciarPreloader();
             cargarDatos();
             establecerFechaMinima();
             initSuiMatrix('suiMatrixFooter');
             initSuiMatrix('preloaderMatrix');
 
-            // Inicializar modales y FAB de Materialize
             var modals = document.querySelectorAll('.modal');
             M.Modal.init(modals, {});
 
@@ -774,7 +872,6 @@
             if (!container) return;
 
             var content = '';
-            // 1500 palabras para rellenar completamente pantallas anchas y evitar cortes del logo
             var wordCount = containerId === 'preloaderMatrix' ? 1500 : 1500;
             for (var i = 0; i < wordCount; i++) {
                 content += '<div class="matrix-word">';
@@ -790,14 +887,13 @@
             var classesGlow = ['neon-glow', 'neon-glow-primary'];
 
             setInterval(function () {
-                var numLuces = Math.floor(Math.random() * 15) + 12; // De 12 a 26 luces encendidas por ciclo para mayor densidad
+                var numLuces = Math.floor(Math.random() * 15) + 12;
 
                 for (var i = 0; i < numLuces; i++) {
                     var randomIndex = Math.floor(Math.random() * letters.length);
                     var letter = letters[randomIndex];
                     var claseGlow = classesGlow[Math.floor(Math.random() * classesGlow.length)];
 
-                    // Validar si la letra ya tiene algún brillo activo
                     var hasGlow = false;
                     for (var c = 0; c < classesGlow.length; c++) {
                         if (letter && letter.classList.contains(classesGlow[c])) {
@@ -813,10 +909,10 @@
                             setTimeout(function () {
                                 el.classList.remove(cls);
                             }, time);
-                        })(letter, claseGlow, Math.floor(Math.random() * 1500) + 800); // Brilla entre 0.8 y 2.3 segundos
+                        })(letter, claseGlow, Math.floor(Math.random() * 1500) + 800);
                     }
                 }
-            }, 100); // Corre cada 100ms para un efecto chispeante de árbol de navidad
+            }, 100);
         }
 
         function establecerFechaMinima() {
@@ -831,35 +927,53 @@
             }
         }
 
+        // ============================================================================
+        // RENDERIZADO DE TABLAS MODERNAS SIN COLUMNA DE ID VISIBLE
+        // ============================================================================
         function renderizarTabla(containerId, payload, isEspera) {
             var container = document.getElementById(containerId);
             if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
-                container.innerHTML = '<table class="centered responsive-table striped"><tbody><tr><td style="color: #ffffff;">No se encontraron registros.</td></tr></tbody></table>';
+                container.innerHTML = '<table class="centered responsive-table custom-buk-table"><tbody><tr><td style="color: var(--text-sub); text-align: center; padding: 25px;">No se encontraron registros.</td></tr></tbody></table>';
                 return;
             }
 
-            var headers = payload.headers.slice();
-            headers.push('Acción');
-
-            var table = '<table class="centered responsive-table striped">';
+            var originalHeaders = payload.headers;
+            var table = '<table class="centered responsive-table custom-buk-table">';
             table += '<thead><tr>';
-            for (var i = 0; i < headers.length; i++) {
-                table += '<th>' + headers[i] + '</th>';
+
+            // Omitir columna 0 (ID) visualmente
+            for (var i = 1; i < originalHeaders.length; i++) {
+                table += '<th>' + originalHeaders[i] + '</th>';
             }
+            table += '<th>Acción</th>';
             table += '</tr></thead><tbody>';
 
             var data = payload.data;
             for (var i = 0; i < data.length; i++) {
                 var row = data[i];
-                var id = row[0]; // Asume que el ID está en la primera columna
-                table += '<tr id="row-' + id + '">';
-                for (var j = 0; j < row.length; j++) {
-                    table += '<td>' + row[j] + '</td>';
+                var id = row[0]; // Conservamos el ID para vincular la fila y acción
+
+                table += '<tr id="row-' + id + '" data-id="' + id + '">';
+                
+                // Omitir columna 0 (ID) en celdas de datos
+                for (var j = 1; j < row.length; j++) {
+                    var cellVal = row[j];
+                    
+                    // Formatear columna Turno como Badge
+                    if (originalHeaders[j] && originalHeaders[j].toLowerCase().includes('turno')) {
+                        var turnoBadgeClass = 'badge-dia-completo';
+                        var valUpper = String(cellVal).toUpperCase();
+                        if (valUpper === 'AM') turnoBadgeClass = 'badge-am';
+                        if (valUpper === 'PM') turnoBadgeClass = 'badge-pm';
+                        cellVal = '<span class="status-badge ' + turnoBadgeClass + '">' + cellVal + '</span>';
+                    }
+                    
+                    table += '<td>' + cellVal + '</td>';
                 }
 
                 var actionBtn = isEspera ?
-                    '<button id="btn-' + id + '" onclick="borrarEspera(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar<br>Espera</span></button>' :
-                    '<button id="btn-' + id + '" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar<br>Reserva</span></button>';
+                    '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarEspera(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Espera</span></button>' :
+                    '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Reserva</span></button>';
 
                 table += '<td>' + actionBtn + '</td>';
                 table += '</tr>';
@@ -874,16 +988,29 @@
 
             google.script.run
                 .withSuccessHandler(function (usuario) {
-                    document.getElementById("currentUser").innerHTML = usuario.email;
-                    if (usuario.nombre) {
+                    var emailStr = typeof usuario === 'string' ? usuario : usuario.email;
+                    var nombreStr = (usuario && usuario.nombre) ? usuario.nombre : '';
+
+                    document.getElementById("currentUser").innerHTML = emailStr;
+                    
+                    // Actualizar Avatar e Iniciales de Usuario
+                    var iniciales = obtenerIniciales(emailStr, nombreStr);
+                    var avatarElem = document.getElementById("user-avatar-initials");
+                    if (avatarElem) avatarElem.textContent = iniciales;
+
+                    var roleBadge = document.getElementById("userRoleBadge");
+                    if (roleBadge) {
+                        roleBadge.textContent = (usuario && usuario.esAdmin) ? "🟢 Admin / Sin Límite" : "Colaborador Buk";
+                    }
+
+                    if (usuario && usuario.nombre) {
                         var inputNombre = document.getElementById("nombreUsuario");
                         if (inputNombre && !inputNombre.value) {
                             inputNombre.value = usuario.nombre;
                             M.updateTextFields();
                         }
                     }
-                    // Mostrar botón flotante de administración si es admin
-                    if (usuario.esAdmin) {
+                    if (usuario && usuario.esAdmin) {
                         var adminFab = document.getElementById("admin-fab");
                         if (adminFab) {
                             adminFab.style.display = "block";
@@ -929,7 +1056,6 @@
             var btn = document.getElementById('btnEnviarReserva');
             var originalText = btn.innerHTML;
 
-            // Estado de carga en botón
             btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div> Procesando...';
             btn.disabled = true;
             btn.style.opacity = '0.7';
@@ -968,7 +1094,6 @@
             var btn = document.getElementById('btn-' + id);
             var row = document.getElementById('row-' + id);
 
-            // Reemplazar boton con spinner pequeño integrado
             var originalText = btn.innerHTML;
             btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div>';
             btn.disabled = true;
@@ -979,7 +1104,6 @@
                 .withSuccessHandler(function (resultado) {
                     if (resultado.success) {
                         M.toast({ html: resultado.message, classes: 'green rounded', displayLength: 4000 });
-                        // Eliminar la fila al instante sin recargar la página
                         if (row) {
                             row.style.transition = 'opacity 0.3s ease-out';
                             row.style.opacity = '0';
@@ -1016,12 +1140,10 @@
 
             if (!emailVal) return;
 
-            // Confirmar acción
             if (!confirm("¿Estás seguro de que deseas penalizar al usuario " + emailVal + "?\nEsto le impedirá reservar por 2 semanas y cancelará todas sus reservas futuras de forma inmediata.")) {
                 return;
             }
 
-            // Estado de carga en botón
             btn.innerHTML = '<div class="preloader-wrapper small active" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 8px;"><div class="spinner-layer spinner-white-only"><div class="circle-clipper left"><div class="circle"></div></div><div class="gap-patch"><div class="circle"></div></div><div class="circle-clipper right"><div class="circle"></div></div></div></div> Procesando...';
             btn.disabled = true;
             btn.style.opacity = '0.7';
@@ -1036,14 +1158,12 @@
                         M.toast({ html: resultado.message, classes: 'green rounded', displayLength: 5000 });
                         emailInput.value = '';
 
-                        // Cerrar el modal programáticamente
                         var elem = document.getElementById('modal-admin-sanciones');
                         var instance = M.Modal.getInstance(elem);
                         if (instance) {
                             instance.close();
                         }
 
-                        // Recargar tablas en tiempo real
                         cargarDatos();
                     } else {
                         M.toast({ html: resultado.message, classes: 'red rounded', displayLength: 5000 });
@@ -1064,7 +1184,6 @@
 
     <!-- PRELOADER OVERLAY (ESTILO EXACTO SUI.IO) -->
     <div id="preloader" class="preloader-overlay">
-        <!-- Círculos concéntricos de fondo -->
         <svg class="preloader-bg-circles" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice"
             aria-hidden="true">
             <circle cx="500" cy="500" r="150" class="bg-circle" />
@@ -1072,35 +1191,24 @@
             <circle cx="500" cy="500" r="420" class="bg-circle" />
         </svg>
 
-        <!-- Logo de BUK animado en el preloader -->
         <div id="preloader-logo-container" class="preloader-logo-container">
-            <!-- La matriz en el fondo -->
             <div id="preloaderMatrix"></div>
-            <!-- La máscara que recorta la luz con la palabra gigante BUK -->
             <div class="buk-text-mask">
                 <h1>BUK</h1>
             </div>
         </div>
 
-        <!-- Contenedor central de la barra de progreso -->
         <div id="progress-container-wrap" class="sui-progress-container">
             <div class="intro_map">
-                <!-- Este es el elemento que se mueve horizontalmente -->
                 <div id="loading-bar" class="line_progress">
-
-                    <!-- Indicador de porcentaje arriba (cuadradito y texto) -->
                     <div class="current_percent">
                         <div class="percent_wrapper">
                             <div class="block-12 bg-primary-blue"></div>
                             <div id="loading-percent" class="ts-16px">0%</div>
                         </div>
-                        <!-- Línea discontinua vertical corta (5 pequeñas rayas) -->
                         <div class="pointer-line"></div>
                     </div>
-
-                    <!-- El cometa degradado que se estira al avanzar (degradado CSS puro premium de Sui.io) -->
                     <div id="loading-comet" class="line_current"></div>
-
                 </div>
             </div>
         </div>
@@ -1109,26 +1217,33 @@
     <!-- WRAPPER UNIFICADO PARA TRANSICIÓN CINEMÁTICA -->
     <div id="app-content-wrapper">
 
+        <!-- NAV BAR CON CABECERA OFICIAL BUK Y USUARIO CON AVATAR -->
         <nav class="custom-nav">
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><i class="material-icons" aria-hidden="true">directions_car</i>Sistema de
-                    Estacionamientos ·BUK·</a>
+            <div class="nav-wrapper-custom">
+                <a href="#" class="brand-logo-custom">
+                    <i class="material-icons" aria-hidden="true">directions_car</i>
+                    <span>Estacionamientos <span style="color: var(--buk-color-secondary);">· BUK ·</span></span>
+                </a>
+
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <!-- TARJETA CREDENCIAL DE USUARIO -->
+                    <div class="user-avatar-badge">
+                        <div id="user-avatar-initials" class="avatar-circle">BUK</div>
+                        <div class="user-info-wrap">
+                            <span id="currentUser" class="user-email-text">Cargando...</span>
+                            <span id="userRoleBadge" class="user-role-tag">Colaborador Buk</span>
+                        </div>
+                    </div>
+
+                    <!-- SELECTOR DE TEMA (CLARO / OSCURO) EN 1 CLIC -->
+                    <button id="theme-toggle-btn" onclick="toggleTheme()" class="theme-toggle-btn waves-effect waves-light" title="Cambiar tema (Claro / Oscuro)">
+                        <i id="theme-toggle-icon" class="material-icons">dark_mode</i>
+                    </button>
+                </div>
             </div>
         </nav>
 
         <div class="container">
-            <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
-
-
-                <div class="col s12">
-                    <h5 class="light" style="font-size: 1.1rem; margin: 0; color: #e2e8f0;">
-                        Gestionando reservas para: <span id='currentUser'
-                            style="font-weight: 600; color: var(--buk-color-secondary);">Cargando...</span>
-                    </h5>
-                </div>
-            </div>
-
-            <!-- Modal y FAB se trasladaron al final del body para mantener position: fixed independiente de transforms del wrapper -->
 
             <!-- ========================================== -->
             <!-- NUEVA TARJETA: SOLICITAR ESTACIONAMIENTO   -->
@@ -1139,16 +1254,13 @@
                         <h5 class="section-title"><i class="material-icons" aria-hidden="true">add_circle</i> Solicitar
                             Estacionamiento</h5>
                         <form id="formReserva" onsubmit="enviarReserva(event)">
-                            <!-- Fila 1: Nombre y Placa -->
                             <div class="row" style="margin-bottom: 0;">
-                                <!-- Campo Nombre -->
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix" aria-hidden="true">person</i>
                                     <input id="nombreUsuario" type="text" required placeholder="Ej: Juan Pérez">
                                     <label for="nombreUsuario" class="active">Nombre Completo *</label>
                                 </div>
 
-                                <!-- Campo Placa -->
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix" aria-hidden="true">directions_car</i>
                                     <input id="placa" type="text" required placeholder="Ej: ABC-123"
@@ -1157,9 +1269,7 @@
                                 </div>
                             </div>
 
-                            <!-- Fila 2: Fecha y Turno -->
                             <div class="row" style="margin-bottom: 0;">
-                                <!-- Campo Fecha -->
                                 <div class="input-field col s12 m6">
                                     <i class="material-icons prefix" aria-hidden="true">date_range</i>
                                     <input id="fechaReserva" type="date" required onclick="this.showPicker()"
@@ -1167,32 +1277,27 @@
                                     <label for="fechaReserva" class="active">Fecha de Uso *</label>
                                 </div>
 
-                                <!-- Opciones de Turno -->
                                 <div class="col s12 m6" style="padding-top: 15px;">
-                                    <label
-                                        style="font-size: 0.85rem; color: #9e9e9e; display: block; margin-bottom: 5px;">Turno
-                                        *</label>
+                                    <label style="font-size: 0.85rem; color: var(--text-sub); display: block; margin-bottom: 5px;">Turno *</label>
                                     <label style="margin-right: 15px;">
-                                        <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO"
-                                            checked />
-                                        <span style="color: #424242;">Día Completo</span>
+                                        <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO" checked />
+                                        <span style="color: var(--text-main);">Día Completo</span>
                                     </label>
                                     <label style="margin-right: 15px;">
                                         <input class="with-gap" name="turno" type="radio" value="AM" />
-                                        <span style="color: #424242;">AM</span>
+                                        <span style="color: var(--text-main);">AM</span>
                                     </label>
                                     <label>
                                         <input class="with-gap" name="turno" type="radio" value="PM" />
-                                        <span style="color: #424242;">PM</span>
+                                        <span style="color: var(--text-main);">PM</span>
                                     </label>
                                 </div>
                             </div>
 
-                            <!-- Botón Enviar -->
                             <div class="row" style="margin-bottom: 0; margin-top: 15px; text-align: right;">
                                 <div class="col s12">
                                     <button type="submit" id="btnEnviarReserva" class="btn waves-effect waves-light"
-                                        style="background-color: var(--buk-color-primary); border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(47, 77, 170, 0.2);">
+                                        style="background-color: var(--buk-color-primary); border-radius: 8px; text-transform: none; font-weight: 600; box-shadow: 0 4px 12px rgba(47, 77, 170, 0.25);">
                                         <i class="material-icons left" aria-hidden="true">send</i> Enviar Solicitud
                                     </button>
                                 </div>
@@ -1206,11 +1311,8 @@
             <div class="row">
                 <div class="col s12">
                     <div class="table-card">
-                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis
-                            Reservas
-                            Confirmadas</h5>
-                        <div id='dataTableReserva'>
-                        </div>
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis Reservas Confirmadas</h5>
+                        <div id='dataTableReserva'></div>
                     </div>
                 </div>
             </div>
@@ -1218,11 +1320,8 @@
             <div class="row">
                 <div class="col s12">
                     <div class="table-card">
-                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis
-                            Reservas
-                            en Fila de Espera</h5>
-                        <div id='dataTableFila'>
-                        </div>
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis Reservas en Fila de Espera</h5>
+                        <div id='dataTableFila'></div>
                     </div>
                 </div>
             </div>
@@ -1231,9 +1330,7 @@
 
         <!-- FOOTER SUI STYLE MATRIX GRID + MASK -->
         <div id="real-matrix-footer" class="sui-matrix-footer">
-            <!-- La matriz en el fondo -->
             <div id="suiMatrixFooter"></div>
-            <!-- La máscara que recorta la luz con la palabra gigante BUK -->
             <div class="buk-text-mask">
                 <h1>BUK</h1>
             </div>
@@ -1246,11 +1343,10 @@
     <!-- ========================================== -->
     <div id="modal-admin-sanciones" class="modal custom-glass-modal" style="max-width: 550px; overflow: visible;">
         <div class="modal-content table-card"
-            style="border-left: 5px solid var(--cancel-red); background-color: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.08); margin: 0; padding: 25px 30px;">
-            <h5 class="section-title"
-                style="background: linear-gradient(135deg, var(--cancel-red) 0%, #ff8a80 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px;">
+            style="border-left: 5px solid var(--cancel-red); background-color: var(--bg-card); border: 1px solid var(--border-card); margin: 0; padding: 28px 32px;">
+            <h5 class="section-title" style="color: var(--cancel-red); -webkit-text-fill-color: var(--cancel-red); margin-bottom: 15px;">
                 <i class="material-icons" aria-hidden="true">gavel</i> Panel de Administración - Penalizar Usuario</h5>
-            <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; text-align: justify; line-height: 1.4;">
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px; text-align: justify; line-height: 1.4;">
                 Ingresa el correo electrónico del usuario. Se le aplicará una restricción de 2 semanas para reservar y
                 se cancelarán de inmediato todas sus reservas futuras y posiciones en cola.
             </p>
@@ -1262,12 +1358,10 @@
                         <label for="emailPenalizar" class="active">Correo del Usuario a Penalizar *</label>
                     </div>
                 </div>
-                <div class="row"
-                    style="margin-top: 20px; margin-bottom: 0; display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" class="modal-close btn-flat"
-                        style="color: #94a3b8; text-transform: none; font-weight: 600; padding: 0 15px; cursor: pointer;">Cancelar</button>
+                <div class="row" style="margin-top: 20px; margin-bottom: 0; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="modal-close btn-flat" style="color: var(--text-sub); text-transform: none; font-weight: 600; padding: 0 15px; cursor: pointer;">Cancelar</button>
                     <button type="submit" id="btnEnviarPenalizacion" class="btn waves-effect waves-light red darken-1"
-                        style="border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(229, 57, 53, 0.2);">
+                        style="border-radius: 8px; text-transform: none; font-weight: 600; box-shadow: 0 4px 10px rgba(229, 57, 53, 0.25);">
                         <i class="material-icons left" aria-hidden="true">block</i> Aplicar Penalización
                     </button>
                 </div>
