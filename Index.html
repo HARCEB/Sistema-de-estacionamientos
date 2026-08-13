@@ -42,6 +42,13 @@
             --badge-am-text: #b45309;
             --badge-pm-bg: #f3e8ff;
             --badge-pm-text: #6b21a8;
+
+            /* FOOTER ADAPTABLE (MODO CLARO BUK) */
+            --footer-bg: #f4f8fb;
+            --matrix-word-color: #cbd5e1;
+            --mask-bg: #f4f8fb;
+            --mask-text-color: #000000;
+            --mask-blend-mode: multiply;
         }
 
         :root[data-theme="dark"] {
@@ -71,6 +78,13 @@
             --badge-am-text: #fbbf24;
             --badge-pm-bg: rgba(168, 85, 247, 0.2);
             --badge-pm-text: #c084fc;
+
+            /* FOOTER ADAPTABLE (MODO OSCURO SUI) */
+            --footer-bg: #000000;
+            --matrix-word-color: #475569;
+            --mask-bg: #000000;
+            --mask-text-color: #ffffff;
+            --mask-blend-mode: darken;
         }
 
         /* ESTILOS GENERALES DEL BODY */
@@ -542,17 +556,17 @@
             cursor: pointer;
         }
 
-        /* FOOTER SUI MATRIX */
+        /* FOOTER SUI MATRIX ADAPTABLE AL TEMA */
         .sui-matrix-footer {
             width: 100%;
-            background-color: #000000;
+            background-color: var(--footer-bg);
             padding: 0;
             overflow: hidden;
             position: relative;
             height: 650px;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.5s ease, visibility 0.5s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease, background-color 0.4s ease;
         }
 
         .sui-matrix-footer.visible-now {
@@ -576,11 +590,12 @@
             font-size: 0.85rem;
             font-weight: 800;
             letter-spacing: 0.08em;
-            color: #475569;
+            color: var(--matrix-word-color);
             display: flex;
             gap: 2px;
             cursor: default;
             user-select: none;
+            transition: color 0.4s ease;
         }
 
         .matrix-letter {
@@ -588,7 +603,7 @@
         }
 
         .matrix-letter.separator {
-            color: #475569;
+            color: var(--matrix-word-color);
             margin: 0 5px;
             font-weight: 800;
             user-select: none;
@@ -610,14 +625,15 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: #000000;
-            color: #ffffff;
-            mix-blend-mode: darken;
+            background-color: var(--mask-bg);
+            color: var(--mask-text-color);
+            mix-blend-mode: var(--mask-blend-mode);
             display: flex;
             align-items: center;
             justify-content: center;
             pointer-events: none;
             z-index: 10;
+            transition: background-color 0.4s ease, color 0.4s ease;
         }
 
         .buk-text-mask h1 {
@@ -941,7 +957,6 @@
             var table = '<table class="centered responsive-table custom-buk-table">';
             table += '<thead><tr>';
 
-            // Omitir columna 0 (ID) visualmente
             for (var i = 1; i < originalHeaders.length; i++) {
                 table += '<th>' + originalHeaders[i] + '</th>';
             }
@@ -951,15 +966,13 @@
             var data = payload.data;
             for (var i = 0; i < data.length; i++) {
                 var row = data[i];
-                var id = row[0]; // Conservamos el ID para vincular la fila y acción
+                var id = row[0];
 
                 table += '<tr id="row-' + id + '" data-id="' + id + '">';
                 
-                // Omitir columna 0 (ID) en celdas de datos
                 for (var j = 1; j < row.length; j++) {
                     var cellVal = row[j];
                     
-                    // Formatear columna Turno como Badge
                     if (originalHeaders[j] && originalHeaders[j].toLowerCase().includes('turno')) {
                         var turnoBadgeClass = 'badge-dia-completo';
                         var valUpper = String(cellVal).toUpperCase();
@@ -993,7 +1006,6 @@
 
                     document.getElementById("currentUser").innerHTML = emailStr;
                     
-                    // Actualizar Avatar e Iniciales de Usuario
                     var iniciales = obtenerIniciales(emailStr, nombreStr);
                     var avatarElem = document.getElementById("user-avatar-initials");
                     if (avatarElem) avatarElem.textContent = iniciales;
