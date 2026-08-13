@@ -43,10 +43,10 @@
             --badge-pm-bg: #f3e8ff;
             --badge-pm-text: #6b21a8;
 
-            /* FOOTER ADAPTABLE (MODO CLARO BUK - FONDO 100% BLANCO) */
-            --footer-bg: #ffffff;
+            /* FOOTER ADAPTABLE (MODO CLARO BUK - MISMO FONDO DE LA PÁGINA #F4F8FB) */
+            --footer-bg: var(--bg-page);
             --matrix-word-color: #64748b;
-            --mask-bg: #ffffff;
+            --mask-bg: var(--bg-page);
             --mask-text-color: #000000;
             --mask-blend-mode: lighten;
         }
@@ -72,14 +72,7 @@
             --btn-ghost-text: #ff8a80;
             --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.8);
 
-            --badge-completo-bg: rgba(0, 164, 189, 0.2);
-            --badge-completo-text: #38bdf8;
-            --badge-am-bg: rgba(245, 158, 11, 0.2);
-            --badge-am-text: #fbbf24;
-            --badge-pm-bg: rgba(168, 85, 247, 0.2);
-            --badge-pm-text: #c084fc;
-
-            /* FOOTER ADAPTABLE (MODO OSCURO SUI - FONDO 100% NEGRO) */
+            /* FOOTER ADAPTABLE (MODO OSCURO SUI - FONDO NEGRO #000000) */
             --footer-bg: #000000;
             --matrix-word-color: #475569;
             --mask-bg: #000000;
@@ -556,7 +549,7 @@
             cursor: pointer;
         }
 
-        /* FOOTER SUI MATRIX ADAPTABLE AL TEMA */
+        /* FOOTER SUI MATRIX ADAPTABLE AL TEMA DEL BODY */
         .sui-matrix-footer {
             width: 100%;
             background-color: var(--footer-bg);
