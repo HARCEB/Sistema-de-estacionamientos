@@ -27,8 +27,10 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-color: #000000; /* Fondo negro puro */
-            z-index: 9999; /* Por encima de todo */
+            background-color: #000000;
+            /* Fondo negro puro */
+            z-index: 9999;
+            /* Por encima de todo */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -87,9 +89,11 @@
             position: absolute;
             top: 50%;
             left: 0%;
-            width: 12px; /* Mismo ancho del cuadradito azul para centrar el origen */
+            width: 12px;
+            /* Mismo ancho del cuadradito azul para centrar el origen */
             height: 12px;
-            transform: translate(-50%, -50%); /* Centra el punto de anclaje en el left exacto */
+            transform: translate(-50%, -50%);
+            /* Centra el punto de anclaje en el left exacto */
             will-change: left;
             transition: left 0.1s linear;
         }
@@ -97,7 +101,8 @@
         /* Indicador de porcentaje superior (cuadradito, texto, 3 rayas) */
         .current_percent {
             position: absolute;
-            bottom: 12px; /* Sube desde el centro horizontal */
+            bottom: 12px;
+            /* Sube desde el centro horizontal */
             left: 50%;
             transform: translateX(-50%);
             display: flex;
@@ -118,7 +123,8 @@
         .block-12 {
             width: 12px;
             height: 12px;
-            background-color: #ffffff; /* Blanco */
+            background-color: #ffffff;
+            /* Blanco */
             box-shadow: 0 0 10px #ffffff;
         }
 
@@ -137,19 +143,25 @@
             width: 1px;
             height: 40px;
             background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3) 50%, rgba(255, 255, 255, 0) 0%);
-            background-size: 1px 8px; /* 4px línea y 4px espacio (5 rayas en 40px) */
+            background-size: 1px 8px;
+            /* 4px línea y 4px espacio (5 rayas en 40px) */
             background-repeat: repeat-y;
         }
 
         /* Cometa/Estela de luz que se estira (degradado CSS puro premium de Sui.io) */
         .line_current {
             position: absolute;
-            right: 6px; /* Centrado con el origen del cuadradito de 12px */
+            right: 6px;
+            /* Centrado con el origen del cuadradito de 12px */
             top: 50%;
-            width: 15em; /* Ancho de la estela */
-            height: 21.33px; /* Grosor de la estela solicitado por el usuario */
-            transform-origin: 100% 50%; /* Se estira hacia la izquierda desde la cabeza */
-            transform: translateY(-50%) scaleX(0); /* Inicialmente colapsado */
+            width: 15em;
+            /* Ancho de la estela */
+            height: 21.33px;
+            /* Grosor de la estela solicitado por el usuario */
+            transform-origin: 100% 50%;
+            /* Se estira hacia la izquierda desde la cabeza */
+            transform: translateY(-50%) scaleX(0);
+            /* Inicialmente colapsado */
             opacity: 0;
             pointer-events: none;
             transition: transform 0.2s ease, opacity 0.2s ease;
@@ -182,8 +194,8 @@
             transform: scale(0.96);
             filter: blur(8px);
             transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                        filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 1.2s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: opacity, transform, filter;
         }
 
@@ -198,7 +210,8 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: 100% 50%; /* Posicionamiento oficial de Sui.io */
+            object-position: 100% 50%;
+            /* Posicionamiento oficial de Sui.io */
             flex: none;
             display: block;
         }
@@ -507,7 +520,8 @@
             overflow: hidden;
             position: relative;
             height: 650px;
-            opacity: 0; /* Empieza invisible para evitar el doble logo en la animación */
+            opacity: 0;
+            /* Empieza invisible para evitar el doble logo en la animación */
             visibility: hidden;
             transition: opacity 0.5s ease, visibility 0.5s ease;
         }
@@ -584,7 +598,8 @@
         }
 
         .buk-text-mask h1 {
-            font-size: clamp(8rem, 28vw, 25rem); /* Ajustado de 12rem/35vw/35rem para evitar cortes verticales */
+            font-size: clamp(8rem, 28vw, 25rem);
+            /* Ajustado de 12rem/35vw/35rem para evitar cortes verticales */
             font-weight: 900;
             line-height: 0.8;
             letter-spacing: -0.02em;
@@ -598,7 +613,7 @@
             background: transparent !important;
             overflow: visible !important;
         }
-        
+
         .modal-overlay {
             background-color: rgba(0, 0, 0, 0.6) !important;
             backdrop-filter: blur(5px);
@@ -635,7 +650,7 @@
                 // Estiramiento proporcional: se estira gradualmente del 0% al 25% de la carga
                 var scaleVal = Math.min(1, percent / 25);
                 var opacityVal = Math.min(1, percent / 10);
-                
+
                 loadingComet.style.transform = "translateY(-50%) scaleX(" + scaleVal + ")";
                 loadingComet.style.opacity = opacityVal;
             }
@@ -1050,7 +1065,8 @@
     <!-- PRELOADER OVERLAY (ESTILO EXACTO SUI.IO) -->
     <div id="preloader" class="preloader-overlay">
         <!-- Círculos concéntricos de fondo -->
-        <svg class="preloader-bg-circles" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        <svg class="preloader-bg-circles" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice"
+            aria-hidden="true">
             <circle cx="500" cy="500" r="150" class="bg-circle" />
             <circle cx="500" cy="500" r="280" class="bg-circle" />
             <circle cx="500" cy="500" r="420" class="bg-circle" />
@@ -1071,7 +1087,7 @@
             <div class="intro_map">
                 <!-- Este es el elemento que se mueve horizontalmente -->
                 <div id="loading-bar" class="line_progress">
-                    
+
                     <!-- Indicador de porcentaje arriba (cuadradito y texto) -->
                     <div class="current_percent">
                         <div class="percent_wrapper">
@@ -1093,132 +1109,135 @@
     <!-- WRAPPER UNIFICADO PARA TRANSICIÓN CINEMÁTICA -->
     <div id="app-content-wrapper">
 
-    <nav class="custom-nav">
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo"><i class="material-icons" aria-hidden="true">directions_car</i>Sistema de
-                Estacionamientos ·BUK·</a>
-        </div>
-    </nav>
-
-    <div class="container">
-        <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
-
-
-            <div class="col s12">
-                <h5 class="light" style="font-size: 1.1rem; margin: 0; color: #e2e8f0;">
-                    Gestionando reservas para: <span id='currentUser'
-                        style="font-weight: 600; color: var(--buk-color-secondary);">Cargando...</span>
-                </h5>
+        <nav class="custom-nav">
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo"><i class="material-icons" aria-hidden="true">directions_car</i>Sistema de
+                    Estacionamientos ·BUK·</a>
             </div>
-        </div>
+        </nav>
 
-        <!-- Modal y FAB se trasladaron al final del body para mantener position: fixed independiente de transforms del wrapper -->
+        <div class="container">
+            <div class="row" style="margin-top: 30px; margin-bottom: 10px;">
 
-        <!-- ========================================== -->
-        <!-- NUEVA TARJETA: SOLICITAR ESTACIONAMIENTO   -->
-        <!-- ========================================== -->
-        <div class="row" style="display: none;" id="seccion-solicitar-estacionamiento">
-            <div class="col s12">
-                <div class="table-card" style="border-left: 5px solid var(--buk-color-primary);">
-                    <h5 class="section-title"><i class="material-icons" aria-hidden="true">add_circle</i> Solicitar
-                        Estacionamiento</h5>
-                    <form id="formReserva" onsubmit="enviarReserva(event)">
-                        <!-- Fila 1: Nombre y Placa -->
-                        <div class="row" style="margin-bottom: 0;">
-                            <!-- Campo Nombre -->
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix" aria-hidden="true">person</i>
-                                <input id="nombreUsuario" type="text" required placeholder="Ej: Juan Pérez">
-                                <label for="nombreUsuario" class="active">Nombre Completo *</label>
-                            </div>
 
-                            <!-- Campo Placa -->
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix" aria-hidden="true">directions_car</i>
-                                <input id="placa" type="text" required placeholder="Ej: ABC-123"
-                                    style="text-transform: uppercase;" maxlength="7">
-                                <label for="placa" class="active">Placa del Vehículo *</label>
-                            </div>
-                        </div>
-
-                        <!-- Fila 2: Fecha y Turno -->
-                        <div class="row" style="margin-bottom: 0;">
-                            <!-- Campo Fecha -->
-                            <div class="input-field col s12 m6">
-                                <i class="material-icons prefix" aria-hidden="true">date_range</i>
-                                <input id="fechaReserva" type="date" required onclick="this.showPicker()"
-                                    onkeydown="return false" style="cursor: pointer; caret-color: transparent;">
-                                <label for="fechaReserva" class="active">Fecha de Uso *</label>
-                            </div>
-
-                            <!-- Opciones de Turno -->
-                            <div class="col s12 m6" style="padding-top: 15px;">
-                                <label
-                                    style="font-size: 0.85rem; color: #9e9e9e; display: block; margin-bottom: 5px;">Turno
-                                    *</label>
-                                <label style="margin-right: 15px;">
-                                    <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO" checked />
-                                    <span style="color: #424242;">Día Completo</span>
-                                </label>
-                                <label style="margin-right: 15px;">
-                                    <input class="with-gap" name="turno" type="radio" value="AM" />
-                                    <span style="color: #424242;">AM</span>
-                                </label>
-                                <label>
-                                    <input class="with-gap" name="turno" type="radio" value="PM" />
-                                    <span style="color: #424242;">PM</span>
-                                </label>
-                            </div>
-                        </div>
-
-                        <!-- Botón Enviar -->
-                        <div class="row" style="margin-bottom: 0; margin-top: 15px; text-align: right;">
-                            <div class="col s12">
-                                <button type="submit" id="btnEnviarReserva" class="btn waves-effect waves-light"
-                                    style="background-color: var(--buk-color-primary); border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(47, 77, 170, 0.2);">
-                                    <i class="material-icons left" aria-hidden="true">send</i> Enviar Solicitud
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <div class="col s12">
+                    <h5 class="light" style="font-size: 1.1rem; margin: 0; color: #e2e8f0;">
+                        Gestionando reservas para: <span id='currentUser'
+                            style="font-weight: 600; color: var(--buk-color-secondary);">Cargando...</span>
+                    </h5>
                 </div>
             </div>
-        </div>
-        <!-- ========================================== -->
 
-        <div class="row">
-            <div class="col s12">
-                <div class="table-card">
-                    <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis Reservas
-                        Confirmadas</h5>
-                    <div id='dataTableReserva'>
+            <!-- Modal y FAB se trasladaron al final del body para mantener position: fixed independiente de transforms del wrapper -->
+
+            <!-- ========================================== -->
+            <!-- NUEVA TARJETA: SOLICITAR ESTACIONAMIENTO   -->
+            <!-- ========================================== -->
+            <div class="row" style="display: none;" id="seccion-solicitar-estacionamiento">
+                <div class="col s12">
+                    <div class="table-card" style="border-left: 5px solid var(--buk-color-primary);">
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">add_circle</i> Solicitar
+                            Estacionamiento</h5>
+                        <form id="formReserva" onsubmit="enviarReserva(event)">
+                            <!-- Fila 1: Nombre y Placa -->
+                            <div class="row" style="margin-bottom: 0;">
+                                <!-- Campo Nombre -->
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix" aria-hidden="true">person</i>
+                                    <input id="nombreUsuario" type="text" required placeholder="Ej: Juan Pérez">
+                                    <label for="nombreUsuario" class="active">Nombre Completo *</label>
+                                </div>
+
+                                <!-- Campo Placa -->
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix" aria-hidden="true">directions_car</i>
+                                    <input id="placa" type="text" required placeholder="Ej: ABC-123"
+                                        style="text-transform: uppercase;" maxlength="7">
+                                    <label for="placa" class="active">Placa del Vehículo *</label>
+                                </div>
+                            </div>
+
+                            <!-- Fila 2: Fecha y Turno -->
+                            <div class="row" style="margin-bottom: 0;">
+                                <!-- Campo Fecha -->
+                                <div class="input-field col s12 m6">
+                                    <i class="material-icons prefix" aria-hidden="true">date_range</i>
+                                    <input id="fechaReserva" type="date" required onclick="this.showPicker()"
+                                        onkeydown="return false" style="cursor: pointer; caret-color: transparent;">
+                                    <label for="fechaReserva" class="active">Fecha de Uso *</label>
+                                </div>
+
+                                <!-- Opciones de Turno -->
+                                <div class="col s12 m6" style="padding-top: 15px;">
+                                    <label
+                                        style="font-size: 0.85rem; color: #9e9e9e; display: block; margin-bottom: 5px;">Turno
+                                        *</label>
+                                    <label style="margin-right: 15px;">
+                                        <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO"
+                                            checked />
+                                        <span style="color: #424242;">Día Completo</span>
+                                    </label>
+                                    <label style="margin-right: 15px;">
+                                        <input class="with-gap" name="turno" type="radio" value="AM" />
+                                        <span style="color: #424242;">AM</span>
+                                    </label>
+                                    <label>
+                                        <input class="with-gap" name="turno" type="radio" value="PM" />
+                                        <span style="color: #424242;">PM</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Botón Enviar -->
+                            <div class="row" style="margin-bottom: 0; margin-top: 15px; text-align: right;">
+                                <div class="col s12">
+                                    <button type="submit" id="btnEnviarReserva" class="btn waves-effect waves-light"
+                                        style="background-color: var(--buk-color-primary); border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(47, 77, 170, 0.2);">
+                                        <i class="material-icons left" aria-hidden="true">send</i> Enviar Solicitud
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- ========================================== -->
 
-        <div class="row">
-            <div class="col s12">
-                <div class="table-card">
-                    <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis Reservas
-                        en Fila de Espera</h5>
-                    <div id='dataTableFila'>
+            <div class="row">
+                <div class="col s12">
+                    <div class="table-card">
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis
+                            Reservas
+                            Confirmadas</h5>
+                        <div id='dataTableReserva'>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col s12">
+                    <div class="table-card">
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis
+                            Reservas
+                            en Fila de Espera</h5>
+                        <div id='dataTableFila'>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-    </div>
-
-    <!-- FOOTER SUI STYLE MATRIX GRID + MASK -->
-    <div id="real-matrix-footer" class="sui-matrix-footer">
-        <!-- La matriz en el fondo -->
-        <div id="suiMatrixFooter"></div>
-        <!-- La máscara que recorta la luz con la palabra gigante BUK -->
-        <div class="buk-text-mask">
-            <h1>BUK</h1>
+        <!-- FOOTER SUI STYLE MATRIX GRID + MASK -->
+        <div id="real-matrix-footer" class="sui-matrix-footer">
+            <!-- La matriz en el fondo -->
+            <div id="suiMatrixFooter"></div>
+            <!-- La máscara que recorta la luz con la palabra gigante BUK -->
+            <div class="buk-text-mask">
+                <h1>BUK</h1>
+            </div>
         </div>
-    </div>
 
     </div> <!-- /#app-content-wrapper -->
 
@@ -1226,10 +1245,14 @@
     <!-- MODAL DE SANCIONES (ADMIN)                 -->
     <!-- ========================================== -->
     <div id="modal-admin-sanciones" class="modal custom-glass-modal" style="max-width: 550px; overflow: visible;">
-        <div class="modal-content table-card" style="border-left: 5px solid var(--cancel-red); background-color: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.08); margin: 0; padding: 25px 30px;">
-            <h5 class="section-title" style="background: linear-gradient(135deg, var(--cancel-red) 0%, #ff8a80 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px;"><i class="material-icons" aria-hidden="true">gavel</i> Panel de Administración - Penalizar Usuario</h5>
+        <div class="modal-content table-card"
+            style="border-left: 5px solid var(--cancel-red); background-color: rgba(13, 17, 23, 0.85); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); border: 1px solid rgba(255, 255, 255, 0.08); margin: 0; padding: 25px 30px;">
+            <h5 class="section-title"
+                style="background: linear-gradient(135deg, var(--cancel-red) 0%, #ff8a80 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 15px;">
+                <i class="material-icons" aria-hidden="true">gavel</i> Panel de Administración - Penalizar Usuario</h5>
             <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 20px; text-align: justify; line-height: 1.4;">
-                Ingresa el correo electrónico del usuario. Se le aplicará una restricción de 2 semanas para reservar y se cancelarán de inmediato todas sus reservas futuras y posiciones en cola.
+                Ingresa el correo electrónico del usuario. Se le aplicará una restricción de 2 semanas para reservar y
+                se cancelarán de inmediato todas sus reservas futuras y posiciones en cola.
             </p>
             <form id="formPenalizacion" onsubmit="enviarPenalizacion(event)">
                 <div class="row" style="margin-bottom: 0;">
@@ -1239,8 +1262,10 @@
                         <label for="emailPenalizar" class="active">Correo del Usuario a Penalizar *</label>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 20px; margin-bottom: 0; display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" class="modal-close btn-flat" style="color: #94a3b8; text-transform: none; font-weight: 600; padding: 0 15px; cursor: pointer;">Cancelar</button>
+                <div class="row"
+                    style="margin-top: 20px; margin-bottom: 0; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="modal-close btn-flat"
+                        style="color: #94a3b8; text-transform: none; font-weight: 600; padding: 0 15px; cursor: pointer;">Cancelar</button>
                     <button type="submit" id="btnEnviarPenalizacion" class="btn waves-effect waves-light red darken-1"
                         style="border-radius: 6px; text-transform: none; font-weight: 600; box-shadow: 0 4px 6px rgba(229, 57, 53, 0.2);">
                         <i class="material-icons left" aria-hidden="true">block</i> Aplicar Penalización
@@ -1252,7 +1277,9 @@
 
     <!-- BOTÓN FLOTANTE DE ACCIÓN RÁPIDA (FAB) PARA ADMIN -->
     <div class="fixed-action-btn" id="admin-fab" style="display: none; bottom: 30px; right: 30px; z-index: 999;">
-        <a class="btn-floating btn-large waves-effect waves-light red darken-1 modal-trigger" href="#modal-admin-sanciones" style="box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4); display: flex; align-items: center; justify-content: center;">
+        <a class="btn-floating btn-large waves-effect waves-light red darken-1 modal-trigger"
+            href="#modal-admin-sanciones"
+            style="box-shadow: 0 4px 15px rgba(229, 57, 53, 0.4); display: flex; align-items: center; justify-content: center;">
             <i class="material-icons">gavel</i>
         </a>
     </div>
