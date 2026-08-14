@@ -465,9 +465,10 @@
         /* --- ESTILOS DE LAS TABLAS LIMPIAS Y MODERNAS (SIN COLUMNA DE ID VISIBLE) --- */
         table.custom-buk-table {
             width: 100%;
-            min-width: 680px;
+            min-width: 700px;
             border-collapse: separate;
             border-spacing: 0;
+            table-layout: auto;
         }
 
         table.custom-buk-table thead th {
@@ -476,10 +477,11 @@
             font-weight: 700;
             text-transform: uppercase;
             font-size: 0.76rem;
-            letter-spacing: 0.06em;
-            padding: 16px 18px;
+            letter-spacing: 0.05em;
+            padding: 14px 14px;
             border-bottom: 1px solid var(--border-card);
             text-align: center;
+            white-space: nowrap;
         }
 
         table.custom-buk-table tbody tr {
@@ -491,11 +493,12 @@
         }
 
         table.custom-buk-table td {
-            padding: 14px 18px;
-            font-size: 0.92rem;
+            padding: 12px 14px;
+            font-size: 0.9rem;
             color: var(--text-main);
             text-align: center;
             vertical-align: middle;
+            white-space: nowrap;
         }
 
         /* BADGES DE TURNO */
@@ -814,8 +817,10 @@
                                     setTimeout(function () {
                                         cb({
                                             success: true,
-                                            headers: ['ID', 'Nombre', 'Email', 'Fecha', 'Turno', 'Cupo', 'Placa'],
-                                            data: []
+                                            headers: ['ID', 'Nombre', 'Email', 'Fecha', 'Turno', 'Posición', 'Placa'],
+                                            data: [
+                                                ['buker-demo2', 'Cristian Apaza', 'capaza@buk.pe', '18/08/2026', 'AM', '1', 'ABC-123']
+                                            ]
                                         });
                                     }, 500);
                                 },
@@ -1081,6 +1086,20 @@
             }
         }
 
+        function normalizarHeader(headerName) {
+            if (!headerName) return '';
+            var h = String(headerName).trim().toLowerCase();
+            if (h === 'id') return 'ID';
+            if (h.includes('fecha')) return 'Fecha de Uso';
+            if (h.includes('nombre')) return 'Nombre';
+            if (h.includes('email') || h.includes('correo')) return 'Email';
+            if (h.includes('turno') || h.includes('hora')) return 'Turno';
+            if (h.includes('cupo') || h.includes('estacionamiento')) return 'Cupo';
+            if (h.includes('puesto') || h.includes('posicion') || h.includes('posición')) return 'Posición';
+            if (h.includes('placa') || h.includes('patente')) return 'Placa';
+            return headerName;
+        }
+
         // ============================================================================
         // RENDERIZADO DE TABLAS MODERNAS SIN COLUMNA DE ID VISIBLE
         // ============================================================================
@@ -1096,9 +1115,10 @@
             table += '<thead><tr>';
 
             for (var i = 1; i < originalHeaders.length; i++) {
-                table += '<th>' + originalHeaders[i] + '</th>';
+                var headerTitulo = normalizarHeader(originalHeaders[i]);
+                table += '<th>' + headerTitulo + '</th>';
             }
-            table += '<th>Acción</th>';
+            table += '<th style="text-align: center; width: 140px;">Acción</th>';
             table += '</tr></thead><tbody>';
 
             var data = payload.data;
@@ -1110,8 +1130,9 @@
                 
                 for (var j = 1; j < row.length; j++) {
                     var cellVal = row[j];
+                    var headerTitulo = normalizarHeader(originalHeaders[j]);
                     
-                    if (originalHeaders[j] && originalHeaders[j].toLowerCase().includes('turno')) {
+                    if (headerTitulo.toLowerCase().includes('turno')) {
                         var turnoBadgeClass = 'badge-dia-completo';
                         var valUpper = String(cellVal).toUpperCase();
                         if (valUpper === 'AM') turnoBadgeClass = 'badge-am';
@@ -1126,7 +1147,7 @@
                     '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarEspera(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Espera</span></button>' :
                     '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Reserva</span></button>';
 
-                table += '<td>' + actionBtn + '</td>';
+                table += '<td style="text-align: center; width: 140px;">' + actionBtn + '</td>';
                 table += '</tr>';
             }
             table += '</tbody></table>';
