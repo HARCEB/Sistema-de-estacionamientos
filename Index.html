@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <base target="_top">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -44,11 +44,8 @@
             --badge-pm-text: #6b21a8;
 
             /* FOOTER ADAPTABLE (MODO CLARO BUK - MISMO FONDO DE LA PÁGINA #F4F8FB) */
-            --footer-bg: var(--bg-page);
+            --footer-bg: #f4f8fb;
             --matrix-word-color: #64748b;
-            --mask-bg: var(--bg-page);
-            --mask-text-color: #000000;
-            --mask-blend-mode: lighten;
         }
 
         :root[data-theme="dark"] {
@@ -82,27 +79,25 @@
             /* FOOTER ADAPTABLE (MODO OSCURO SUI - FONDO NEGRO #000000) */
             --footer-bg: #000000;
             --matrix-word-color: #475569;
-            --mask-bg: #000000;
-            --mask-text-color: #ffffff;
-            --mask-blend-mode: darken;
         }
 
-        /* ============================================================================
-           TRANSICIÓN SUAVE Y SINCRONIZADA DE TEMA (CLARO / OSCURO)
-           ============================================================================ */
+        /* VIEW TRANSITIONS NATIVOS (CROSS-FADE SINCRONIZADO A 60 FPS) */
+        ::view-transition-old(root),
+        ::view-transition-new(root) {
+            animation-duration: 0.25s;
+            animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* TRANSICIÓN GLOBAL SUAVE Y PAREJA */
         body,
         nav.custom-nav,
         .table-card,
         .user-avatar-badge,
         .theme-toggle-btn,
         .brand-logo-custom,
-        .brand-logo-custom i,
-        .brand-logo-custom .buk-highlight-title,
         .user-email-text,
         .user-role-tag,
         .section-title,
-        .section-title i,
-        table.custom-buk-table,
         table.custom-buk-table thead th,
         table.custom-buk-table tbody tr,
         table.custom-buk-table td,
@@ -114,13 +109,12 @@
         .sui-matrix-footer,
         .matrix-word,
         .matrix-letter.separator,
-        .buk-text-mask,
-        .modal,
-        .modal-content {
-            transition: background-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                        color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                        border-color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                        box-shadow 0.35s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        .footer-backdrop-rect {
+            transition: background-color 0.25s ease,
+                        color 0.25s ease,
+                        border-color 0.25s ease,
+                        box-shadow 0.25s ease,
+                        fill 0.25s ease !important;
         }
 
         /* ESTILOS GENERALES DEL BODY */
@@ -279,17 +273,6 @@
             display: block;
         }
 
-        /* EL PRELOADER SIEMPRE TIENE MÁSCARA NEGRA CINEMÁTICA FIJA */
-        .preloader-overlay .buk-text-mask {
-            background-color: #000000 !important;
-            color: #ffffff !important;
-            mix-blend-mode: darken !important;
-        }
-
-        .preloader-overlay .matrix-word {
-            color: #475569 !important;
-        }
-
         #app-content-wrapper {
             opacity: 0;
             transform: scale(0.97);
@@ -344,7 +327,7 @@
             text-decoration: none;
         }
 
-        /* ICONO DE VEHÍCULO CON DEGRADADO BUK (IGUAL QUE MIS RESERVAS CONFIRMADAS) */
+        /* ICONO DE VEHÍCULO CON DEGRADADO BUK */
         .brand-logo-custom i {
             font-size: 1.8rem;
             background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
@@ -355,7 +338,7 @@
             display: inline-block;
         }
 
-        /* PALABRA BUK CON DEGRADADO OFICIAL BUK (IGUAL QUE MIS RESERVAS CONFIRMADAS) */
+        /* PALABRA BUK CON DEGRADADO OFICIAL BUK */
         .brand-logo-custom .buk-highlight-title {
             background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
             -webkit-background-clip: text;
@@ -613,10 +596,10 @@
             cursor: pointer;
         }
 
-        /* FOOTER SUI MATRIX ADAPTABLE AL TEMA DEL BODY */
+        /* FOOTER SUI MATRIX CON SVG CUTOUT MASK PERFECTO */
         .sui-matrix-footer {
             width: 100%;
-            background-color: var(--footer-bg);
+            background-color: transparent;
             padding: 0;
             overflow: hidden;
             position: relative;
@@ -674,29 +657,22 @@
             text-shadow: 0 0 15px rgba(47, 77, 170, 0.8), 0 0 30px rgba(47, 77, 170, 0.5);
         }
 
-        .buk-text-mask {
+        /* MÁSCARA SVG PRECISA PARA EL RECORTE DE LA PALABRA BUK */
+        .buk-svg-cutout-mask {
             position: absolute;
             top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--mask-bg);
-            color: var(--mask-text-color);
-            mix-blend-mode: var(--mask-blend-mode);
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 100%;
+            height: 100%;
             pointer-events: none;
             z-index: 10;
         }
 
-        .buk-text-mask h1 {
-            font-size: clamp(8rem, 28vw, 25rem);
+        .buk-mask-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: clamp(8rem, 26vw, 22rem);
             font-weight: 900;
-            line-height: 0.8;
             letter-spacing: -0.02em;
-            margin: 0;
-            text-align: center;
         }
 
         .custom-glass-modal {
@@ -761,7 +737,7 @@
         }
 
         // ============================================================================
-        // GESTIÓN DE TEMA (INICIALIZADO EN MODO OSCURO POR DEFECTO)
+        // GESTIÓN DE TEMA CON VIEW TRANSITIONS SINCRONIZADOS AL 100%
         // ============================================================================
         function initTheme() {
             var currentTheme = localStorage.getItem('buk-theme') || 'dark';
@@ -772,9 +748,20 @@
         function toggleTheme() {
             var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
             var newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('buk-theme', newTheme);
-            actualizarIconoTema(newTheme);
+
+            // Usar View Transition API nativo para sincronización visual perfecta
+            if (document.startViewTransition) {
+                document.startViewTransition(function () {
+                    document.documentElement.setAttribute('data-theme', newTheme);
+                    localStorage.setItem('buk-theme', newTheme);
+                    actualizarIconoTema(newTheme);
+                });
+            } else {
+                document.documentElement.setAttribute('data-theme', newTheme);
+                localStorage.setItem('buk-theme', newTheme);
+                actualizarIconoTema(newTheme);
+            }
+
             if (window.M && M.toast) {
                 M.toast({ html: 'Modo ' + (newTheme === 'light' ? 'Claro Buk' : 'Oscuro') + ' activado', classes: 'rounded', displayLength: 2000 });
             }
@@ -1257,11 +1244,18 @@
             <circle cx="500" cy="500" r="420" class="bg-circle" />
         </svg>
 
+        <!-- LOGO BUK CON MÁSCARA SVG DE RECORTE DIRECTA -->
         <div id="preloader-logo-container" class="preloader-logo-container">
             <div id="preloaderMatrix"></div>
-            <div class="buk-text-mask">
-                <h1>BUK</h1>
-            </div>
+            <svg class="buk-svg-cutout-mask" width="100%" height="100%" aria-hidden="true">
+                <defs>
+                    <mask id="preloaderCutoutMask">
+                        <rect width="100%" height="100%" fill="#ffffff" />
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000" class="buk-mask-text">BUK</text>
+                    </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="#000000" mask="url(#preloaderCutoutMask)" />
+            </svg>
         </div>
 
         <div id="progress-container-wrap" class="sui-progress-container">
@@ -1394,12 +1388,18 @@
 
         </div>
 
-        <!-- FOOTER SUI STYLE MATRIX GRID + MASK -->
+        <!-- FOOTER SUI STYLE MATRIX GRID + SVG CUTOUT MASK LIMPIO -->
         <div id="real-matrix-footer" class="sui-matrix-footer">
             <div id="suiMatrixFooter"></div>
-            <div class="buk-text-mask">
-                <h1>BUK</h1>
-            </div>
+            <svg class="buk-svg-cutout-mask" width="100%" height="100%" aria-hidden="true">
+                <defs>
+                    <mask id="footerCutoutMask">
+                        <rect width="100%" height="100%" fill="#ffffff" />
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000" class="buk-mask-text">BUK</text>
+                    </mask>
+                </defs>
+                <rect width="100%" height="100%" fill="var(--footer-bg)" mask="url(#footerCutoutMask)" class="footer-backdrop-rect" />
+            </svg>
         </div>
 
     </div> <!-- /#app-content-wrapper -->
