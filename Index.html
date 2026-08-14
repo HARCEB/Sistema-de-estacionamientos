@@ -458,12 +458,14 @@
         #dataTableFila {
             width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
             border-radius: 12px;
         }
 
         /* --- ESTILOS DE LAS TABLAS LIMPIAS Y MODERNAS (SIN COLUMNA DE ID VISIBLE) --- */
         table.custom-buk-table {
             width: 100%;
+            min-width: 680px;
             border-collapse: separate;
             border-spacing: 0;
         }
@@ -711,28 +713,43 @@
             }
 
             .user-avatar-badge {
-                padding: 4px 6px !important;
-                gap: 6px !important;
+                padding: 4px 10px !important;
+                gap: 8px !important;
             }
 
             .avatar-circle {
-                width: 30px !important;
-                height: 30px !important;
-                font-size: 0.75rem !important;
+                width: 28px !important;
+                height: 28px !important;
+                font-size: 0.72rem !important;
             }
 
             .user-info-wrap {
-                display: none !important; /* Ocultar email largo en móviles para que todo quepa en 1 sola línea impecable */
+                display: flex !important;
+                flex-direction: column;
+                line-height: 1.1;
+                text-align: left;
+            }
+
+            .user-email-text {
+                font-size: 0.72rem !important;
+                max-width: 110px !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+                white-space: nowrap !important;
+            }
+
+            .user-role-tag {
+                font-size: 0.62rem !important;
             }
 
             .theme-toggle-btn {
-                width: 36px !important;
-                height: 36px !important;
-                min-width: 36px !important;
+                width: 34px !important;
+                height: 34px !important;
+                min-width: 34px !important;
             }
 
             .theme-toggle-btn i {
-                font-size: 1.2rem !important;
+                font-size: 1.15rem !important;
             }
 
             .container {
@@ -1070,12 +1087,12 @@
         function renderizarTabla(containerId, payload, isEspera) {
             var container = document.getElementById(containerId);
             if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
-                container.innerHTML = '<table class="centered responsive-table custom-buk-table"><tbody><tr><td style="color: var(--text-sub); text-align: center; padding: 25px;">No se encontraron registros.</td></tr></tbody></table>';
+                container.innerHTML = '<table class="centered custom-buk-table"><tbody><tr><td style="color: var(--text-sub); text-align: center; padding: 25px;">No se encontraron registros.</td></tr></tbody></table>';
                 return;
             }
 
             var originalHeaders = payload.headers;
-            var table = '<table class="centered responsive-table custom-buk-table">';
+            var table = '<table class="centered custom-buk-table">';
             table += '<thead><tr>';
 
             for (var i = 1; i < originalHeaders.length; i++) {
