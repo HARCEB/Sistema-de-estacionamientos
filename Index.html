@@ -1086,68 +1086,65 @@
             }
         }
 
-        function normalizarHeader(headerName) {
-            if (!headerName) return '';
-            var h = String(headerName).trim().toLowerCase();
-            if (h === 'id') return 'ID';
-            if (h.includes('fecha')) return 'Fecha de Uso';
-            if (h.includes('nombre')) return 'Nombre';
-            if (h.includes('email') || h.includes('correo')) return 'Email';
-            if (h.includes('turno') || h.includes('hora')) return 'Turno';
-            if (h.includes('cupo') || h.includes('estacionamiento')) return 'Cupo';
-            if (h.includes('puesto') || h.includes('posicion') || h.includes('posición')) return 'Posición';
-            if (h.includes('placa') || h.includes('patente')) return 'Placa';
-            return headerName;
-        }
-
         // ============================================================================
         // RENDERIZADO DE TABLAS MODERNAS SIN COLUMNA DE ID VISIBLE
         // ============================================================================
         function renderizarTabla(containerId, payload, isEspera) {
             var container = document.getElementById(containerId);
-            if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
-                container.innerHTML = '<table class="centered custom-buk-table"><tbody><tr><td style="color: var(--text-sub); text-align: center; padding: 25px;">No se encontraron registros.</td></tr></tbody></table>';
-                return;
-            }
+            var defaultHeaders = isEspera ?
+                ['Nombre', 'Email', 'Fecha de Uso', 'Turno', 'Posición', 'Placa'] :
+                ['Nombre', 'Email', 'Fecha de Uso', 'Turno', 'Cupo', 'Placa'];
 
-            var originalHeaders = payload.headers;
             var table = '<table class="centered custom-buk-table">';
             table += '<thead><tr>';
-
-            for (var i = 1; i < originalHeaders.length; i++) {
-                var headerTitulo = normalizarHeader(originalHeaders[i]);
-                table += '<th>' + headerTitulo + '</th>';
-            }
-            table += '<th style="text-align: center; width: 140px;">Acción</th>';
+            table += '<th style="width: 22%; text-align: left; padding-left: 20px;">' + defaultHeaders[0] + '</th>';
+            table += '<th style="width: 24%; text-align: left;">' + defaultHeaders[1] + '</th>';
+            table += '<th style="width: 14%; text-align: center;">' + defaultHeaders[2] + '</th>';
+            table += '<th style="width: 13%; text-align: center;">' + defaultHeaders[3] + '</th>';
+            table += '<th style="width: 9%; text-align: center;">' + defaultHeaders[4] + '</th>';
+            table += '<th style="width: 8%; text-align: center;">' + defaultHeaders[5] + '</th>';
+            table += '<th style="width: 10%; text-align: center; padding-right: 20px;">Acción</th>';
             table += '</tr></thead><tbody>';
+
+            if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
+                table += '<tr><td colspan="7" style="color: var(--text-sub); text-align: center; padding: 35px 20px; font-weight: 500;">' +
+                    '<i class="material-icons" style="font-size: 2.2rem; display: block; margin: 0 auto 8px auto; opacity: 0.4;">inbox</i>' +
+                    'No tienes registros activos ' + (isEspera ? 'en fila de espera' : 'de reservas confirmadas') + '.' +
+                    '</td></tr></tbody></table>';
+                container.innerHTML = table;
+                return;
+            }
 
             var data = payload.data;
             for (var i = 0; i < data.length; i++) {
                 var row = data[i];
                 var id = row[0];
 
-                table += '<tr id="row-' + id + '" data-id="' + id + '">';
-                
-                for (var j = 1; j < row.length; j++) {
-                    var cellVal = row[j];
-                    var headerTitulo = normalizarHeader(originalHeaders[j]);
-                    
-                    if (headerTitulo.toLowerCase().includes('turno')) {
-                        var turnoBadgeClass = 'badge-dia-completo';
-                        var valUpper = String(cellVal).toUpperCase();
-                        if (valUpper === 'AM') turnoBadgeClass = 'badge-am';
-                        if (valUpper === 'PM') turnoBadgeClass = 'badge-pm';
-                        cellVal = '<span class="status-badge ' + turnoBadgeClass + '">' + cellVal + '</span>';
-                    }
-                    
-                    table += '<td>' + cellVal + '</td>';
-                }
+                var nombre = row[1] || '';
+                var email = row[2] || '';
+                var fecha = row[3] || '';
+                var turno = row[4] || '';
+                var cupoOPosicion = row[5] || '';
+                var placa = row[6] || '';
+
+                var turnoBadgeClass = 'badge-dia-completo';
+                var valUpper = String(turno).toUpperCase();
+                if (valUpper === 'AM') turnoBadgeClass = 'badge-am';
+                if (valUpper === 'PM') turnoBadgeClass = 'badge-pm';
+                var badgeTurno = '<span class="status-badge ' + turnoBadgeClass + '">' + turno + '</span>';
 
                 var actionBtn = isEspera ?
                     '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarEspera(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Espera</span></button>' :
                     '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Reserva</span></button>';
 
-                table += '<td style="text-align: center; width: 140px;">' + actionBtn + '</td>';
+                table += '<tr id="row-' + id + '" data-id="' + id + '">';
+                table += '<td style="text-align: left; padding-left: 20px; font-weight: 600;">' + nombre + '</td>';
+                table += '<td style="text-align: left; color: var(--text-sub);">' + email + '</td>';
+                table += '<td style="text-align: center;">' + fecha + '</td>';
+                table += '<td style="text-align: center;">' + badgeTurno + '</td>';
+                table += '<td style="text-align: center; font-weight: 600;">' + cupoOPosicion + '</td>';
+                table += '<td style="text-align: center; font-weight: 700; letter-spacing: 0.05em;">' + placa + '</td>';
+                table += '<td style="text-align: center; padding-right: 20px;">' + actionBtn + '</td>';
                 table += '</tr>';
             }
             table += '</tbody></table>';
