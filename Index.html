@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es" data-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -740,7 +740,7 @@
         // GESTIÓN DE TEMA CON VIEW TRANSITIONS SINCRONIZADOS AL 100%
         // ============================================================================
         function initTheme() {
-            var currentTheme = localStorage.getItem('buk-theme') || 'dark';
+            var currentTheme = 'light';
             document.documentElement.setAttribute('data-theme', currentTheme);
             actualizarIconoTema(currentTheme);
         }
