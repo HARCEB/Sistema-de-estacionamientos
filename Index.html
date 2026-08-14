@@ -96,9 +96,12 @@
         .user-avatar-badge,
         .theme-toggle-btn,
         .brand-logo-custom,
+        .brand-logo-custom i,
+        .brand-logo-custom .buk-highlight-title,
         .user-email-text,
         .user-role-tag,
         .section-title,
+        .section-title i,
         table.custom-buk-table,
         table.custom-buk-table thead th,
         table.custom-buk-table tbody tr,
@@ -341,9 +344,26 @@
             text-decoration: none;
         }
 
+        /* ICONO DE VEHÍCULO CON DEGRADADO BUK (IGUAL QUE MIS RESERVAS CONFIRMADAS) */
         .brand-logo-custom i {
             font-size: 1.8rem;
-            color: var(--buk-color-secondary);
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            display: inline-block;
+        }
+
+        /* PALABRA BUK CON DEGRADADO OFICIAL BUK (IGUAL QUE MIS RESERVAS CONFIRMADAS) */
+        .brand-logo-custom .buk-highlight-title {
+            background: linear-gradient(135deg, var(--buk-color-primary) 0%, var(--buk-color-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            color: transparent;
+            font-weight: 900;
+            letter-spacing: 0.02em;
         }
 
         .user-avatar-badge {
@@ -1268,7 +1288,7 @@
             <div class="nav-wrapper-custom">
                 <a href="#" class="brand-logo-custom">
                     <i class="material-icons" aria-hidden="true">directions_car</i>
-                    <span>Estacionamientos <span style="color: var(--buk-color-secondary);">· BUK ·</span></span>
+                    <span>Estacionamientos <span class="buk-highlight-title">· BUK ·</span></span>
                 </a>
 
                 <div style="display: flex; align-items: center; gap: 16px;">
