@@ -468,7 +468,7 @@
             min-width: 700px;
             border-collapse: separate;
             border-spacing: 0;
-            table-layout: auto;
+            table-layout: fixed;
         }
 
         table.custom-buk-table thead th {
@@ -817,9 +817,9 @@
                                     setTimeout(function () {
                                         cb({
                                             success: true,
-                                            headers: ['ID', 'Nombre', 'Email', 'Fecha', 'Turno', 'Posición', 'Placa'],
+                                            headers: ['ID', 'Nombre', 'Email', 'Fecha', 'Turno', 'Placa', 'Posición'],
                                             data: [
-                                                ['buker-demo2', 'Cristian Apaza', 'capaza@buk.pe', '18/08/2026', 'AM', '1', 'ABC-123']
+                                                ['buker-demo2', 'Cristian Apaza', 'capaza@buk.pe', '18/08/2026', 'AM', 'ABC-123', '1']
                                             ]
                                         });
                                     }, 500);
@@ -1097,13 +1097,13 @@
 
             var table = '<table class="centered custom-buk-table">';
             table += '<thead><tr>';
-            table += '<th style="width: 22%; text-align: left; padding-left: 20px;">' + defaultHeaders[0] + '</th>';
-            table += '<th style="width: 24%; text-align: left;">' + defaultHeaders[1] + '</th>';
-            table += '<th style="width: 14%; text-align: center;">' + defaultHeaders[2] + '</th>';
+            table += '<th style="width: 19%; text-align: left; padding-left: 18px;">' + defaultHeaders[0] + '</th>';
+            table += '<th style="width: 23%; text-align: left;">' + defaultHeaders[1] + '</th>';
+            table += '<th style="width: 15%; text-align: center;">' + defaultHeaders[2] + '</th>';
             table += '<th style="width: 13%; text-align: center;">' + defaultHeaders[3] + '</th>';
             table += '<th style="width: 9%; text-align: center;">' + defaultHeaders[4] + '</th>';
-            table += '<th style="width: 8%; text-align: center;">' + defaultHeaders[5] + '</th>';
-            table += '<th style="width: 10%; text-align: center; padding-right: 20px;">Acción</th>';
+            table += '<th style="width: 9%; text-align: center;">' + defaultHeaders[5] + '</th>';
+            table += '<th style="width: 12%; text-align: center; padding-right: 18px;">Acción</th>';
             table += '</tr></thead><tbody>';
 
             if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
@@ -1124,8 +1124,11 @@
                 var email = row[2] || '';
                 var fecha = row[3] || '';
                 var turno = row[4] || '';
-                var cupoOPosicion = row[5] || '';
-                var placa = row[6] || '';
+
+                // En Estacionamientos_Asignados: col 5 es Cupo, col 6 es Placa
+                // En Fila_Espera: col 5 es Placa/Patente, col 6 es Posición (maxPuesto)
+                var cupoOPosicion = isEspera ? (row[6] || '') : (row[5] || '');
+                var placa = isEspera ? (row[5] || '') : (row[6] || '');
 
                 var turnoBadgeClass = 'badge-dia-completo';
                 var valUpper = String(turno).toUpperCase();
@@ -1138,13 +1141,13 @@
                     '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Reserva</span></button>';
 
                 table += '<tr id="row-' + id + '" data-id="' + id + '">';
-                table += '<td style="text-align: left; padding-left: 20px; font-weight: 600;">' + nombre + '</td>';
+                table += '<td style="text-align: left; padding-left: 18px; font-weight: 600;">' + nombre + '</td>';
                 table += '<td style="text-align: left; color: var(--text-sub);">' + email + '</td>';
                 table += '<td style="text-align: center;">' + fecha + '</td>';
                 table += '<td style="text-align: center;">' + badgeTurno + '</td>';
                 table += '<td style="text-align: center; font-weight: 600;">' + cupoOPosicion + '</td>';
                 table += '<td style="text-align: center; font-weight: 700; letter-spacing: 0.05em;">' + placa + '</td>';
-                table += '<td style="text-align: center; padding-right: 20px;">' + actionBtn + '</td>';
+                table += '<td style="text-align: center; padding-right: 18px;">' + actionBtn + '</td>';
                 table += '</tr>';
             }
             table += '</tbody></table>';
