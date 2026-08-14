@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es" data-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -71,6 +71,13 @@
             --btn-ghost-bg: rgba(229, 57, 53, 0.15);
             --btn-ghost-text: #ff8a80;
             --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.8);
+
+            --badge-completo-bg: rgba(0, 164, 189, 0.2);
+            --badge-completo-text: #38bdf8;
+            --badge-am-bg: rgba(245, 158, 11, 0.2);
+            --badge-am-text: #fbbf24;
+            --badge-pm-bg: rgba(168, 85, 247, 0.2);
+            --badge-pm-text: #c084fc;
 
             /* FOOTER ADAPTABLE (MODO OSCURO SUI - FONDO NEGRO #000000) */
             --footer-bg: #000000;
@@ -235,6 +242,17 @@
 
         .preloader-logo-container.visible {
             display: block;
+        }
+
+        /* EL PRELOADER SIEMPRE TIENE MÁSCARA NEGRA CINEMÁTICA FIJA */
+        .preloader-overlay .buk-text-mask {
+            background-color: #000000 !important;
+            color: #ffffff !important;
+            mix-blend-mode: darken !important;
+        }
+
+        .preloader-overlay .matrix-word {
+            color: #475569 !important;
         }
 
         #app-content-wrapper {
@@ -700,16 +718,16 @@
         }
 
         // ============================================================================
-        // GESTIÓN DE TEMA (CLARO / OSCURO) Y PREFERENCIAS
+        // GESTIÓN DE TEMA (INICIALIZADO EN MODO OSCURO POR DEFECTO)
         // ============================================================================
         function initTheme() {
-            var currentTheme = localStorage.getItem('buk-theme') || 'light';
+            var currentTheme = localStorage.getItem('buk-theme') || 'dark';
             document.documentElement.setAttribute('data-theme', currentTheme);
             actualizarIconoTema(currentTheme);
         }
 
         function toggleTheme() {
-            var currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            var currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
             var newTheme = currentTheme === 'light' ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('buk-theme', newTheme);
