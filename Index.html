@@ -681,10 +681,90 @@
             overflow: visible !important;
         }
 
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.6) !important;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+        /* ============================================================================
+           OPTIMIZACIONES RESPONSIVAS PARA SMARTPHONES / MÓVILES
+           ============================================================================ */
+        @media (max-width: 768px) {
+            nav.custom-nav {
+                height: 64px !important;
+                line-height: 64px !important;
+                padding: 0 !important;
+            }
+
+            .nav-wrapper-custom {
+                padding: 0 14px !important;
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                height: 100% !important;
+            }
+
+            .brand-logo-custom {
+                font-size: 1.05rem !important;
+                gap: 6px !important;
+                line-height: 1 !important;
+                margin: 0 !important;
+            }
+
+            .brand-logo-custom i {
+                font-size: 1.4rem !important;
+            }
+
+            .user-avatar-badge {
+                padding: 4px 6px !important;
+                gap: 6px !important;
+            }
+
+            .avatar-circle {
+                width: 30px !important;
+                height: 30px !important;
+                font-size: 0.75rem !important;
+            }
+
+            .user-info-wrap {
+                display: none !important; /* Ocultar email largo en móviles para que todo quepa en 1 sola línea impecable */
+            }
+
+            .theme-toggle-btn {
+                width: 36px !important;
+                height: 36px !important;
+                min-width: 36px !important;
+            }
+
+            .theme-toggle-btn i {
+                font-size: 1.2rem !important;
+            }
+
+            .container {
+                width: 96% !important;
+                padding: 0 !important;
+            }
+
+            .table-card {
+                padding: 18px 14px !important;
+                margin-top: 15px !important;
+                margin-bottom: 15px !important;
+                border-radius: 14px !important;
+            }
+
+            .section-title {
+                font-size: 1.1rem !important;
+                margin-bottom: 16px !important;
+            }
+
+            .sui-matrix-footer {
+                height: 380px !important;
+            }
+
+            .buk-mask-text {
+                font-size: clamp(5rem, 24vw, 12rem) !important;
+            }
+
+            /* Botones de acción fáciles de pulsar en pantalla táctil */
+            .btn-cancel-ghost {
+                padding: 8px 14px !important;
+                font-size: 0.8rem !important;
+            }
         }
     </style>
 
