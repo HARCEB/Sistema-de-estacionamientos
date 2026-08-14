@@ -1097,13 +1097,10 @@
 
             var table = '<table class="centered custom-buk-table">';
             table += '<thead><tr>';
-            table += '<th style="width: 18%; text-align: left; padding-left: 20px;">' + defaultHeaders[0] + '</th>';
-            table += '<th style="width: 22%; text-align: left;">' + defaultHeaders[1] + '</th>';
-            table += '<th style="width: 14%; text-align: center;">' + defaultHeaders[2] + '</th>';
-            table += '<th style="width: 12%; text-align: center;">' + defaultHeaders[3] + '</th>';
-            table += '<th style="width: 11%; text-align: center;">' + defaultHeaders[4] + '</th>';
-            table += '<th style="width: 11%; text-align: center;">' + defaultHeaders[5] + '</th>';
-            table += '<th style="width: 12%; text-align: center; padding-right: 20px;">Acción</th>';
+            for (var i = 0; i < defaultHeaders.length; i++) {
+                table += '<th style="width: 14.28%; text-align: center;">' + defaultHeaders[i] + '</th>';
+            }
+            table += '<th style="width: 14.28%; text-align: center;">Acción</th>';
             table += '</tr></thead><tbody>';
 
             if (!payload || !payload.success || !payload.data || payload.data.length === 0) {
@@ -1141,13 +1138,13 @@
                     '<button id="btn-' + id + '" class="btn-cancel-ghost" onclick="borrarReserva(\'' + id + '\')"><i class="material-icons" aria-hidden="true">cancel</i><span>Cancelar Reserva</span></button>';
 
                 table += '<tr id="row-' + id + '" data-id="' + id + '">';
-                table += '<td style="text-align: left; padding-left: 20px; font-weight: 600;">' + nombre + '</td>';
-                table += '<td style="text-align: left; color: var(--text-sub);">' + email + '</td>';
+                table += '<td style="text-align: center; font-weight: 600;">' + nombre + '</td>';
+                table += '<td style="text-align: center; color: var(--text-sub);">' + email + '</td>';
                 table += '<td style="text-align: center;">' + fecha + '</td>';
                 table += '<td style="text-align: center;">' + badgeTurno + '</td>';
                 table += '<td style="text-align: center; font-weight: 600;' + (isEspera ? ' font-weight: 700; letter-spacing: 0.05em;' : '') + '">' + col5Val + '</td>';
                 table += '<td style="text-align: center; font-weight: 600;' + (!isEspera ? ' font-weight: 700; letter-spacing: 0.05em;' : '') + '">' + col6Val + '</td>';
-                table += '<td style="text-align: center; padding-right: 20px;">' + actionBtn + '</td>';
+                table += '<td style="text-align: center;">' + actionBtn + '</td>';
                 table += '</tr>';
             }
             table += '</tbody></table>';
