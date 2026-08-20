@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <base target="_top">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
@@ -35,7 +36,7 @@
             --btn-ghost-bg: rgba(229, 57, 53, 0.04);
             --btn-ghost-text: #e53935;
             --shadow-card: 0 10px 25px -5px rgba(47, 77, 170, 0.06), 0 8px 10px -6px rgba(47, 77, 170, 0.03);
-            
+
             --badge-completo-bg: #e0f2fe;
             --badge-completo-text: #0369a1;
             --badge-am-bg: #fef3c7;
@@ -111,10 +112,10 @@
         .matrix-letter.separator,
         .footer-backdrop-rect {
             transition: background-color 0.25s ease,
-                        color 0.25s ease,
-                        border-color 0.25s ease,
-                        box-shadow 0.25s ease,
-                        fill 0.25s ease !important;
+                color 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                fill 0.25s ease !important;
         }
 
         /* ESTILOS GENERALES DEL BODY */
@@ -919,7 +920,7 @@
             } else {
                 var scaleVal = Math.min(1, percent / 25);
                 var opacityVal = Math.min(1, percent / 10);
-                
+
                 loadingComet.style.transform = "translateY(-50%) scaleX(" + scaleVal + ")";
                 loadingComet.style.opacity = opacityVal;
             }
@@ -1161,7 +1162,7 @@
                     var nombreStr = (usuario && usuario.nombre) ? usuario.nombre : '';
 
                     document.getElementById("currentUser").innerHTML = emailStr;
-                    
+
                     var iniciales = obtenerIniciales(emailStr, nombreStr);
                     var avatarElem = document.getElementById("user-avatar-initials");
                     if (avatarElem) avatarElem.textContent = iniciales;
@@ -1366,7 +1367,8 @@
                 <defs>
                     <mask id="preloaderCutoutMask">
                         <rect width="100%" height="100%" fill="#ffffff" />
-                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000" class="buk-mask-text">BUK</text>
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000"
+                            class="buk-mask-text">BUK</text>
                     </mask>
                 </defs>
                 <rect width="100%" height="100%" fill="#000000" mask="url(#preloaderCutoutMask)" />
@@ -1411,7 +1413,8 @@
                     </div>
 
                     <!-- SELECTOR DE TEMA (CLARO / OSCURO) EN 1 CLIC -->
-                    <button id="theme-toggle-btn" onclick="toggleTheme()" class="theme-toggle-btn waves-effect waves-light" title="Cambiar tema (Claro / Oscuro)">
+                    <button id="theme-toggle-btn" onclick="toggleTheme()"
+                        class="theme-toggle-btn waves-effect waves-light" title="Cambiar tema (Claro / Oscuro)">
                         <i id="theme-toggle-icon" class="material-icons">dark_mode</i>
                     </button>
                 </div>
@@ -1453,9 +1456,12 @@
                                 </div>
 
                                 <div class="col s12 m6" style="padding-top: 15px;">
-                                    <label style="font-size: 0.85rem; color: var(--text-sub); display: block; margin-bottom: 5px;">Turno *</label>
+                                    <label
+                                        style="font-size: 0.85rem; color: var(--text-sub); display: block; margin-bottom: 5px;">Turno
+                                        *</label>
                                     <label style="margin-right: 15px;">
-                                        <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO" checked />
+                                        <input class="with-gap" name="turno" type="radio" value="DIA COMPLETO"
+                                            checked />
                                         <span style="color: var(--text-main);">Día Completo</span>
                                     </label>
                                     <label style="margin-right: 15px;">
@@ -1486,7 +1492,8 @@
             <div class="row">
                 <div class="col s12">
                     <div class="table-card">
-                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis Reservas Confirmadas</h5>
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">check_circle</i> Mis
+                            Reservas Confirmadas</h5>
                         <div id='dataTableReserva'></div>
                     </div>
                 </div>
@@ -1495,7 +1502,8 @@
             <div class="row">
                 <div class="col s12">
                     <div class="table-card">
-                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis Reservas en Fila de Espera</h5>
+                        <h5 class="section-title"><i class="material-icons" aria-hidden="true">access_time</i> Mis
+                            Reservas en Fila de Espera</h5>
                         <div id='dataTableFila'></div>
                     </div>
                 </div>
@@ -1510,10 +1518,12 @@
                 <defs>
                     <mask id="footerCutoutMask">
                         <rect width="100%" height="100%" fill="#ffffff" />
-                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000" class="buk-mask-text">BUK</text>
+                        <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central" fill="#000000"
+                            class="buk-mask-text">BUK</text>
                     </mask>
                 </defs>
-                <rect width="100%" height="100%" fill="var(--footer-bg)" mask="url(#footerCutoutMask)" class="footer-backdrop-rect" />
+                <rect width="100%" height="100%" fill="var(--footer-bg)" mask="url(#footerCutoutMask)"
+                    class="footer-backdrop-rect" />
             </svg>
         </div>
 
@@ -1525,9 +1535,12 @@
     <div id="modal-admin-sanciones" class="modal custom-glass-modal" style="max-width: 550px; overflow: visible;">
         <div class="modal-content table-card"
             style="border-left: 5px solid var(--cancel-red); background-color: var(--bg-card); border: 1px solid var(--border-card); margin: 0; padding: 28px 32px;">
-            <h5 class="section-title" style="color: var(--cancel-red); -webkit-text-fill-color: var(--cancel-red); margin-bottom: 15px;">
-                <i class="material-icons" aria-hidden="true">gavel</i> Panel de Administración - Penalizar Usuario</h5>
-            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px; text-align: justify; line-height: 1.4;">
+            <h5 class="section-title"
+                style="color: var(--cancel-red); -webkit-text-fill-color: var(--cancel-red); margin-bottom: 15px;">
+                <i class="material-icons" aria-hidden="true">gavel</i> Panel de Administración - Penalizar Usuario
+            </h5>
+            <p
+                style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 20px; text-align: justify; line-height: 1.4;">
                 Ingresa el correo electrónico del usuario. Se le aplicará una restricción de 2 semanas para reservar y
                 se cancelarán de inmediato todas sus reservas futuras y posiciones en cola.
             </p>
@@ -1539,8 +1552,10 @@
                         <label for="emailPenalizar" class="active">Correo del Usuario a Penalizar *</label>
                     </div>
                 </div>
-                <div class="row" style="margin-top: 20px; margin-bottom: 0; display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" class="modal-close btn-flat" style="color: var(--text-sub); text-transform: none; font-weight: 600; padding: 0 15px; cursor: pointer;">Cancelar</button>
+                <div class="row"
+                    style="margin-top: 20px; margin-bottom: 0; display: flex; justify-content: flex-end; gap: 10px;">
+                    <button type="button" class="modal-close btn-flat"
+                        style="color: var(--text-sub); text-transform: none; font-weight: 600; padding: 0 15px; cursor: pointer;">Cancelar</button>
                     <button type="submit" id="btnEnviarPenalizacion" class="btn waves-effect waves-light red darken-1"
                         style="border-radius: 8px; text-transform: none; font-weight: 600; box-shadow: 0 4px 10px rgba(229, 57, 53, 0.25);">
                         <i class="material-icons left" aria-hidden="true">block</i> Aplicar Penalización
